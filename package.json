@@ -1,0 +1,9 @@
+{
+  "name": "TuftedD3",
+  "version": "0.0.1",
+  "description": "D3 Visualizations",
+  "main": "Gruntfile.js",
+  "devDependencies": {
+    "d3": "*"
+  }
+}

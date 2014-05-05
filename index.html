@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="css/tufted.css" rel="stylesheet" type="text/css">
+<head>
+  <meta charset="UTF-8">
+  <title>TuftedJS</title>
+</head>
+<body>
+
+  <div id="chart"></div>
+
+  <script src="required/d3.v3.js"></script>
+  <script src="required/d3.chart.min.js"></script>
+  <script src="required/jquery.js"></script>
+  <script src="required/bootstrap-tooltip.js"></script>
+  <script src="required/bootstrap-popover.js"></script>
+  <script src="tufted.js"></script>
+  <script>
+
+    var testDataTwoDimension = [
+      {name: 'A', value: 4},
+      {name: 'B', value: -36},
+      {name: 'C', value: 19},
+      {name: 'D', value: -2},
+      {name: 'E', value: 6},
+    ];
+
+    var chart = d3.select('#chart')
+      .append("svg")
+      .chart("BarChart")
+      .width(400)
+      .height(400);
+
+    chart.draw(testDataTwoDimension);
+
+  </script>
+</body>
+</html>
