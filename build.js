@@ -4,10 +4,21 @@ var groupedbarchart = require('./lib/groupedBarChart');
 var linechart = require('./lib/lineChart');
 var stackedbarchart = require('./lib/stackedBarChart');
 
-module.exports = {
-  basechart: basechart,
-  barchart: barchart,
-  groupedbarchart: groupedbarchart,
-  linechart: linechart,
-  stackedbarchart: stackedbarchart
-}
+// module.exports = {
+//   barchart: barchart,
+//   basechart: basechart,
+//   groupedbarchart: groupedbarchart,
+//   linechart: linechart,
+//   stackedbarchart: stackedbarchart
+// } 
+
+
+
+
+
+exports.barchart = barchart
+exports.basechart = basechart
+exports.groupedbarchart = groupedbarchart
+exports.linechart = linechart
+exports.stackedbarchart = stackedbarchart
+

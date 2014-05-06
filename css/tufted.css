@@ -2,6 +2,10 @@ text {
   font: 10px sans-serif;
 }
 
+rect {
+  opacity: 0.8;
+}
+
 .charts {
   height:300px;
   width:400px;
@@ -45,9 +49,7 @@ path:hover {
   /*opacity: 0.7;*/
 }
 
-.bar {
-  fill: steelblue;
-}
+
 
 .error {
   stroke: black;
