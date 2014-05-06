@@ -7,7 +7,7 @@
   <title>TuftedJS</title>
 </head>
 <body>
-
+  <a href="#" id="d3-download">Download ALl The Charts</a>
   <div id="chart"></div>
   <div id="stacked-bar-chart"></div>
   <script src="required/simg.js"></script>
@@ -297,25 +297,20 @@
     }
 
     $(document).ready(function() {
-      // log("1");
 
       var saveImages = function(callback) {
         var zip = new JSZip();
         var img = zip.folder("images");
-        log("2");
 
         $("svg").each(function(index, svg) {
           var simg = new Simg(svg);
-          log("3");
 
           simg.toImg(function(image) {
             var filedata = Simg.getBase64Image(image);
             var filename = "chart-" + index + ".png"
             img.file(filename, filedata, {base64: true})
-            log("4");
           })
 
-          log("5");
         });
 
         setTimeout(function(){
@@ -325,21 +320,16 @@
       }
 
       var saveZip = function(zip) {
-        log("6");
         var content = zip.generate({type:"blob"});
         saveAs(content, "example.zip");
       }
 
       // log("7");
-      setTimeout(function() {
+      $("#d3-download").on("click", function() {
         saveImages(function(zip) {
           saveZip(zip);
         })
-      }, 801);
-      // setTimeout(function() {
-      //   saveImages(function(zip) {
-      //   saveZip(zip)
-      // }}, 10000);
+      });
 
     });
 
