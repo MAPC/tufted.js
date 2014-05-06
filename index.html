@@ -289,6 +289,7 @@
       .chart('StackedBarChart')
       .width(500)
       .height(400)
+      .download("#d3-download");
 
     chart.draw(stackedBarChartData);
 
@@ -296,42 +297,47 @@
       console.log(item);
     }
 
-    $(document).ready(function() {
+    // $(document).ready(function() {
 
-      var saveImages = function(callback) {
-        var zip = new JSZip();
-        var img = zip.folder("images");
+    //   var saveImages = function(callback) {
+    //     var zip = new JSZip();
+    //     var img = zip.folder("images");
 
-        $("svg").each(function(index, svg) {
-          var simg = new Simg(svg);
+    //     $("svg").each(function(index, svg) {
+    //       var simg = new Simg(svg);
 
-          simg.toImg(function(image) {
-            var filedata = Simg.getBase64Image(image);
-            var filename = "chart-" + index + ".png"
-            img.file(filename, filedata, {base64: true})
-          })
+    //       simg.toImg(function(image) {
+    //         var filedata = Simg.getBase64Image(image);
+    //         var filename = "chart-" + index + ".png"
+    //         img.file(filename, filedata, {base64: true})
+    //       })
 
-        });
+    //     });
 
-        setTimeout(function(){
-          if(callback) callback(zip);
-        }, 500);
+    //     setTimeout(function(){
+    //       if(callback) callback(zip);
+    //     }, 500);
         
-      }
+    //   }
 
-      var saveZip = function(zip) {
-        var content = zip.generate({type:"blob"});
-        saveAs(content, "example.zip");
-      }
+    //   var saveZip = function(zip) {
+    //     var content = zip.generate({type:"blob"});
+    //     saveAs(content, "example.zip");
+    //   }
 
-      // log("7");
-      $("#d3-download").on("click", function() {
-        saveImages(function(zip) {
-          saveZip(zip);
-        })
-      });
+    //   // log("7");
 
-    });
+    //   var downloadSvgs = function () {
+    //     saveImages(function(zip) {
+    //       saveZip(zip);
+    //     })
+    //   }
+
+    //   $("#d3-download").on("click", function() {
+    //     downloadSvgs();
+    //   });
+
+    // });
 
   </script>
 </body>
