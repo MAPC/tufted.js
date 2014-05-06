@@ -44,7 +44,7 @@
         var canvas = document.createElement('canvas');
         var context = canvas.getContext("2d");
 
-        canvas.width = img.width;
+        canvas.width  = img.width;
         canvas.height = img.height;
 
         context.drawImage(img, 0, 0);

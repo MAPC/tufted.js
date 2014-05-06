@@ -292,38 +292,54 @@
 
     chart.draw(stackedBarChartData);
 
-
+    var log = function(item) {
+      console.log(item);
+    }
 
     $(document).ready(function() {
+      // log("1");
 
       var saveImages = function(callback) {
         var zip = new JSZip();
         var img = zip.folder("images");
+        log("2");
 
         $("svg").each(function(index, svg) {
           var simg = new Simg(svg);
-          console.log(svg);
-          
-          Simg.getBase64Image(simg.toImg(function(image) {
-            console.log(image);
+          log("3");
+
+          simg.toImg(function(image) {
+            var filedata = Simg.getBase64Image(image);
             var filename = "chart-" + index + ".png"
-            var filedata = image.src.substring(22);
             img.file(filename, filedata, {base64: true})
-          }));
+            log("4");
+          })
+
+          log("5");
         });
 
-        if(callback) callback(zip);
+        setTimeout(function(){
+          if(callback) callback(zip);
+        }, 500);
+        
       }
 
       var saveZip = function(zip) {
-
+        log("6");
         var content = zip.generate({type:"blob"});
         saveAs(content, "example.zip");
       }
 
-
-
-      setTimeout(saveImages(), 2000);
+      // log("7");
+      setTimeout(function() {
+        saveImages(function(zip) {
+          saveZip(zip);
+        })
+      }, 801);
+      // setTimeout(function() {
+      //   saveImages(function(zip) {
+      //   saveZip(zip)
+      // }}, 10000);
 
     });
 
