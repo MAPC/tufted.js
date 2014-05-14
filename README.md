@@ -18,7 +18,8 @@ beefy build.js:tufted.js --live
 
 Examples:
 Bar Chart:
-```var testDataTwoDimension = [
+```
+var testDataTwoDimension = [
       {name: 'A', value: 4},
       {name: 'B', value: -36},
       {name: 'C', value: 19},
@@ -26,16 +27,18 @@ Bar Chart:
       {name: 'E', value: 6},
     ];
 
-    var chart = d3.select('#chart')
+var chart = d3.select('#chart')
       .append("svg")
       .chart("BarChart")
       .width(400)
       .height(400);
 
-    chart.draw(testDataTwoDimension); ```
+chart.draw(testDataTwoDimension); 
+```
 
 Grouped Bar Chart:
-```var groupedBarData = [
+```
+var groupedBarData = [
     { series: "1", values:
       [{name: 'A', value: 4},
        {name: 'B', value: 36}]
@@ -58,10 +61,11 @@ Grouped Bar Chart:
     }
     ];
 
-    var chart = d3.select('#grouped-bar-chart')
+var chart = d3.select('#grouped-bar-chart')
       .append("svg")
       .chart("GroupedBarChart")
       .width(400)
       .height(400);
 
-    chart.draw(groupedBarData);```
+chart.draw(groupedBarData);
+```
