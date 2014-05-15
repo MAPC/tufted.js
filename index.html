@@ -8,7 +8,8 @@
 </head>
 <body>
   <a href="#" id="d3-download">Download ALl The Charts</a>
-  <div id="chart"></div>
+  <div id="bar-chart"></div>
+  <div id="grouped-bar-chart"></div>
   <div id="stacked-bar-chart"></div>
   <script src="required/simg.js"></script>
   <script src="required/d3.v3.js"></script>
@@ -27,7 +28,7 @@
 
     var stackedBarChartData = [
       {
-        "State":"AL",
+        "series":"AL",
         "Under 5 Years":310504,
         "5 to 13 Years":552339,
         "14 to 17 Years":259034,
@@ -37,7 +38,7 @@
         "65 Years and Over":641667
       },
       {
-        "State":"AK",
+        "series":"AK",
         "Under 5 Years":52083,
         "5 to 13 Years":85640,
         "14 to 17 Years":42153,
@@ -47,7 +48,7 @@
         "65 Years and Over":50277
       },
       {
-        "State":"AZ",
+        "series":"AZ",
         "Under 5 Years":515910,
         "5 to 13 Years":828669,
         "14 to 17 Years":362642,
@@ -57,7 +58,7 @@
         "65 Years and Over":862573
       },
       {
-        "State":"AR",
+        "series":"AR",
         "Under 5 Years":202070,
         "5 to 13 Years":343207,
         "14 to 17 Years":157204,
@@ -67,7 +68,7 @@
         "65 Years and Over":407205
       },
       {
-        "State":"CA",
+        "series":"CA",
         "Under 5 Years":2704659,
         "5 to 13 Years":4499890,
         "14 to 17 Years":2159981,
@@ -77,7 +78,7 @@
         "65 Years and Over":4114496
       },
       {
-        "State":"CO",
+        "series":"CO",
         "Under 5 Years":358280,
         "5 to 13 Years":587154,
         "14 to 17 Years":261701,
@@ -87,7 +88,7 @@
         "65 Years and Over":511094
       },
       {
-        "State":"CT",
+        "series":"CT",
         "Under 5 Years":211637,
         "5 to 13 Years":403658,
         "14 to 17 Years":196918,
@@ -97,7 +98,7 @@
         "65 Years and Over":478007
       },
       {
-        "State":"DE",
+        "series":"DE",
         "Under 5 Years":59319,
         "5 to 13 Years":99496,
         "14 to 17 Years":47414,
@@ -107,7 +108,7 @@
         "65 Years and Over":121688
       },
       {
-        "State":"DC",
+        "series":"DC",
         "Under 5 Years":36352,
         "5 to 13 Years":50439,
         "14 to 17 Years":25225,
@@ -117,7 +118,7 @@
         "65 Years and Over":70648
       },
       {
-        "State":"FL",
+        "series":"FL",
         "Under 5 Years":1140516,
         "5 to 13 Years":1938695,
         "14 to 17 Years":925060,
@@ -127,7 +128,7 @@
         "65 Years and Over":3187797
       },
       {
-        "State":"GA",
+        "series":"GA",
         "Under 5 Years":740521,
         "5 to 13 Years":1250460,
         "14 to 17 Years":557860,
@@ -137,7 +138,7 @@
         "65 Years and Over":981024
       },
       {
-        "State":"HI",
+        "series":"HI",
         "Under 5 Years":87207,
         "5 to 13 Years":134025,
         "14 to 17 Years":64011,
@@ -147,7 +148,7 @@
         "65 Years and Over":190067
       },
       {
-        "State":"ID",
+        "series":"ID",
         "Under 5 Years":121746,
         "5 to 13 Years":201192,
         "14 to 17 Years":89702,
@@ -157,7 +158,7 @@
         "65 Years and Over":182150
       },
       {
-        "State":"IL",
+        "series":"IL",
         "Under 5 Years":894368,
         "5 to 13 Years":1558919,
         "14 to 17 Years":725973,
@@ -167,7 +168,7 @@
         "65 Years and Over":1575308
       },
       {
-        "State":"IN",
+        "series":"IN",
         "Under 5 Years":443089,
         "5 to 13 Years":780199,
         "14 to 17 Years":361393,
@@ -177,7 +178,7 @@
         "65 Years and Over":813839
       },
       {
-        "State":"IA",
+        "series":"IA",
         "Under 5 Years":201321,
         "5 to 13 Years":345409,
         "14 to 17 Years":165883,
@@ -187,7 +188,7 @@
         "65 Years and Over":444554
       },
       {
-        "State":"KS",
+        "series":"KS",
         "Under 5 Years":202529,
         "5 to 13 Years":342134,
         "14 to 17 Years":155822,
@@ -197,7 +198,7 @@
         "65 Years and Over":366706
       },
       {
-        "State":"KY",
+        "series":"KY",
         "Under 5 Years":284601,
         "5 to 13 Years":493536,
         "14 to 17 Years":229927,
@@ -207,7 +208,7 @@
         "65 Years and Over":565867
       },
       {
-        "State":"LA",
+        "series":"LA",
         "Under 5 Years":310716,
         "5 to 13 Years":542341,
         "14 to 17 Years":254916,
@@ -217,7 +218,7 @@
         "65 Years and Over":540314
       },
       {
-        "State":"ME",
+        "series":"ME",
         "Under 5 Years":71459,
         "5 to 13 Years":133656,
         "14 to 17 Years":69752,
@@ -227,7 +228,7 @@
         "65 Years and Over":199187
       },
       {
-        "State":"MD",
+        "series":"MD",
         "Under 5 Years":371787,
         "5 to 13 Years":651923,
         "14 to 17 Years":316873,
@@ -237,7 +238,7 @@
         "65 Years and Over":679565
       },
       {
-        "State":"MA",
+        "series":"MA",
         "Under 5 Years":383568,
         "5 to 13 Years":701752,
         "14 to 17 Years":341713,
@@ -247,7 +248,7 @@
         "65 Years and Over":871098
       },
       {
-        "State":"MI",
+        "series":"MI",
         "Under 5 Years":625526,
         "5 to 13 Years":1179503,
         "14 to 17 Years":585169,
@@ -257,7 +258,7 @@
         "65 Years and Over":1304322
       },
       {
-        "State":"MN",
+        "series":"MN",
         "Under 5 Years":358471,
         "5 to 13 Years":606802,
         "14 to 17 Years":289371,
@@ -276,7 +277,7 @@
       {name: 'E', value: 6},
     ];
 
-    var chart = d3.select('#chart')
+    var chart = d3.select('#bar-chart')
       .append("svg")
       .chart("BarChart")
       .width(400)
@@ -293,9 +294,168 @@
 
     chart.draw(stackedBarChartData);
 
-    var log = function(item) {
-      console.log(item);
-    }
+    var testDataTwoDimension = [
+      {name: 'A', value: 4},
+      {name: 'B', value: -36},
+      {name: 'C', value: 19},
+      {name: 'D', value: -2},
+      {name: 'E', value: 6},
+    ];
+
+    var groupedBarData = [
+      { series: "1", values:
+        [{name: 'A', value: 4},
+         {name: 'B', value: 36}]
+      },
+      { series: "2", values:
+        [{name: 'A', value: 36},
+         {name: 'B', value: 36}]
+      },
+      { series: "3", values:
+        [{name: 'A', value: 19},
+         {name: 'B', value: 36}]
+      },
+      { series: "4", values:
+        [{name: 'A', value: 2},
+         {name: 'B', value: 36}]
+      },
+      { series: "5", values:
+        [{name: 'A', value: 6},
+         {name: 'B', value: 6}]
+      }
+    ];
+
+    var newGroupedBarData = [
+      {
+        "series":"AL",
+        "name": "Under 5 Years",
+        "value": 310504
+      },
+      {
+        "series":"AL",
+        "name":"14 to 17 Years",
+        "value": 259034
+      },
+      {
+        "series": "AL",
+        "name":"18 to 24 Years",
+        "value": 450818
+      },
+      {
+        "series": "AL",
+        "name": "25 to 44 Years",
+        "value": 1231572
+      },
+      {
+        "series": "AL",
+        "name": "45 to 64 Years",
+        "value": 1215966
+      },
+      {  
+        "series": "AL",
+        "name": "65 Years and Over",
+        "value": 641667
+      },
+      {
+        "series":"AK",
+        "name": "Under 5 Years",
+        "value": 52083
+      },
+      {
+        "series":"AK",
+        "name":"14 to 17 Years",
+        "value": 42153
+      },
+      {
+        "series": "AK",
+        "name":"18 to 24 Years",
+        "value": 74257
+      },
+      {
+        "series": "AK",
+        "name": "25 to 44 Years",
+        "value": 198724
+      },
+      {
+        "series": "AK",
+        "name": "45 to 64 Years",
+        "value": 183159
+      },
+      {  
+        "series": "AK",
+        "name": "65 Years and Over",
+        "value": 50277
+      },
+      {
+        "series":"AZ",
+        "name": "Under 5 Years",
+        "value": 515910
+      },
+      {
+        "series":"AZ",
+        "name":"14 to 17 Years",
+        "value": 362642
+      },
+      {
+        "series": "AZ",
+        "name":"18 to 24 Years",
+        "value": 601943
+      },
+      {
+        "series": "AZ",
+        "name": "25 to 44 Years",
+        "value": 1804762
+      },
+      {
+        "series": "AZ",
+        "name": "45 to 64 Years",
+        "value": 1523681
+      },
+      {  
+        "series": "AZ",
+        "name": "65 Years and Over",
+        "value": 862573
+      },
+      {
+        "series":"AR",
+        "name": "Under 5 Years",
+        "value": 202070
+      },
+      {
+        "series":"AR",
+        "name":"14 to 17 Years",
+        "value": 157204
+      },
+      {
+        "series": "AR",
+        "name":"18 to 24 Years",
+        "value": 264160
+      },
+      {
+        "series": "AR",
+        "name": "25 to 44 Years",
+        "value": 754420
+      },
+      {
+        "series": "AR",
+        "name": "45 to 64 Years",
+        "value": 727124
+      },
+      {  
+        "series": "AR",
+        "name": "65 Years and Over",
+        "value": 407205
+      }
+    ]
+
+    var chart = d3.select('#grouped-bar-chart')
+      .append('svg')
+      .chart('GroupedBarChart')
+      .width(500)
+      .height(400);
+
+    chart.draw(newGroupedBarData);
+
 
     // $(document).ready(function() {
 
