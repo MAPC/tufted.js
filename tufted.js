@@ -11,7 +11,7 @@ var stackedbarchart = require('./lib/stackedBarChart');
 //   groupedbarchart: groupedbarchart,
 //   linechart: linechart,
 //   stackedbarchart: stackedbarchart
-// }
+// } 
 
 
 
@@ -31,7 +31,7 @@ d3.chart("BaseChart").extend("BarChart", {
     var chart = this;
 
     chart.xScale = d3.scale.ordinal().rangeRoundBands([0, chart.width()], 0.1);
-    chart.yScale = d3.scale.linear().range([chart.height(), 0]);
+    chart.yScale = d3.scale.linear().rangeRound([chart.height(), 0]);
     chart.color = d3.scale.category10();
     chart.duration = 500;
 
@@ -74,7 +74,12 @@ d3.chart("BaseChart").extend("BarChart", {
             .attr("y", -35)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Percent");
+            .style("font", "10px sans-serif")
+            .text("Percent")
+
+        chart.areas.yAxisLayer
+            .selectAll("text")
+            .style("font", "10px sans-serif")
 
         var xAxis = d3.svg.axis()
           .scale(chart.xScale)
@@ -85,6 +90,7 @@ d3.chart("BaseChart").extend("BarChart", {
               .attr("transform", "translate(0," + chart.height() + ")")
               .call(xAxis)
               .selectAll("text")
+              .style("font", "10px sans-serif")
               .call(chart.wrap, 50)
 
       return this.selectAll('.bar')
@@ -109,9 +115,17 @@ d3.chart("BaseChart").extend("BarChart", {
             .attr("title", function(d) { return d.name })
             .attr("data-content", function(d) { return  "Estimate: " + d.value + '%' })
             .attr('y', function(d) { return chart.yScale(0); })
-            .attr('fill', function(d) {return chart.color(d.name);})
             .attr('width', chart.xScale.rangeBand())
-            .attr('height', 0);
+            .attr('height', 0)
+            .on("mouseover", function() {
+              d3.select(this)
+                .style("opacity", 1)
+            })
+            .on("mouseout", function() {
+              d3.select(this)
+                .style("opacity", 0.8)
+            })
+            .style('fill', function(d) {return chart.color(d.name);});
         },
 
         'enter:transition': function() {
@@ -237,6 +251,21 @@ d3.chart("BaseChart", {
         }
       }
     });
+  },
+
+  download: function(element) {
+    var chart = this;
+    if (arguments.length === 0) {
+      return this;
+    }
+
+    var simg = new Simg((chart.base[0])[0]);
+
+    d3.select(element).on("click", function() {
+      simg.download();
+    });
+    
+    return this;
   }
 });
 },{}],4:[function(require,module,exports){
@@ -385,13 +414,44 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
     },
 
     transform: function(data) {
-      var _data = data;
-
       var chart = this;
 
-      chart.xScale.domain(_data.map(function(d) { return d.series; }));
-      chart.x1Scale.domain(['2000', '2007-11']).rangeRoundBands([0, chart.xScale.rangeBand()]);
-      chart.yScale.domain([0, d3.max(_data, function(d) { return d3.max(d.values, function(d) { return d.value; }); })]);
+
+      // data standards? :(
+      // var series = [];
+      // data.forEach(function(d){
+      //   series.push(d.series);
+      // });
+      // var keys = d3.set(series).values();
+
+      // var newData = [];
+
+      // keys.forEach(function(series) {
+      //   var values = [];
+      //   var filter = data.filter(function(element) { 
+      //     return element.series == series 
+      //   });
+
+      //   filter.forEach(function(d){
+      //     values.push({ "name": d.name, "value": d.value })
+      //   });
+
+      //   newData.push({ "series": series, "values": values })
+      // });
+
+
+      var buffer = [];
+      var x1domain = data[0].values.forEach(function(d) {
+        buffer.push(d.name);
+      });
+      
+      chart.xScale.domain(data.map(function(d) { return d.series; }));
+      chart.x1Scale.domain(buffer).rangeRoundBands([0, chart.xScale.rangeBand()]);
+      chart.yScale.domain([0, d3.max(data, function(d) { 
+        return d3.max(d.values, function(d) { 
+          return d.value; 
+        }); 
+      })]);
 
       return data;
   }
@@ -704,6 +764,10 @@ d3.chart('BaseChart').extend('StackedBarChart', {
             .style("text-anchor", "end")
             .text("Percent");
  
+        chart.areas.yAxisLayer
+            .selectAll("text")
+            .style("font", "10px sans-serif")
+
         var xAxis = d3.svg.axis()
             .scale(chart.xScale)
             .orient("bottom");
@@ -713,6 +777,7 @@ d3.chart('BaseChart').extend('StackedBarChart', {
               .attr("transform", "translate(0," + chart.height() + ")")
               .call(xAxis)
               .selectAll("text")
+              .style("font", "10px sans-serif")
               .call(chart.wrap, chart.xScale.rangeBand())
 
         // Bind the data
@@ -733,12 +798,12 @@ d3.chart('BaseChart').extend('StackedBarChart', {
         "enter": function() {
           var chart = this.chart();
  
-          this.attr("transform", function(d, i) { return "translate(" + chart.xScale(d.State) + ",0)"; })
+          this.attr("transform", function(d, i) { return "translate(" + chart.xScale(d.series) + ",0)"; })
             .selectAll(".category")
               .data(function(d) { return d.groups; })
             .enter().append("rect")
               .attr("class", "bar")
-              // .attr("transform", function(d) { return "translate(" + chart.xScale(d.State) + ",0)"; })
+              // .attr("transform", function(d) { return "translate(" + chart.xScale(d.series) + ",0)"; })
               .attr("width", chart.xScale.rangeBand())
               .attr("y", function(d) { return chart.yScale(d.y1); })
               .attr("height", function(d) { return chart.yScale(d.y0) - chart.yScale(d.y1); })
@@ -753,7 +818,7 @@ d3.chart('BaseChart').extend('StackedBarChart', {
       var _data = data;
       var chart = this;
 
-      chart.color.domain(d3.keys(data[0]).filter(function(key) { return key !== "State"; }));
+      chart.color.domain(d3.keys(data[0]).filter(function(key) { return key !== "series"; }));
 
       _data.forEach(function(d) {
         var y0 = 0;
@@ -763,7 +828,7 @@ d3.chart('BaseChart').extend('StackedBarChart', {
 
       data.sort(function(a, b) { return b.total - a.total; });
       
-      chart.xScale.domain(data.map(function(d) { return d.State; }));
+      chart.xScale.domain(data.map(function(d) { return d.series; }));
       chart.yScale.domain([0, d3.max(data, function(d) { return d.total; })]);
       
       return data;
