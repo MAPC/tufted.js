@@ -12,6 +12,7 @@
   <div id="grouped-bar-chart"></div>
   <div id="my-grouped-bar-chart"></div>
   <div id="stacked-bar-chart"></div>
+  <div id="line-chart"></div>
   <script src="required/simg.js"></script>
   <script src="required/d3.v3.js"></script>
   <script src="required/d3.chart.min.js"></script>
@@ -272,8 +273,8 @@
 
     var testDataTwoDimension = [
       {name: 'A', value: 4},
-      {name: 'B', value: -36},
-      {name: 'C', value: 19},
+      {name: 'B', value: 36},
+      {name: 'C', value: -19},
       {name: 'D', value: -2},
       {name: 'E', value: 6},
     ];
@@ -282,16 +283,17 @@
       .append("svg")
       .chart("BarChart")
       .width(400)
-      .height(400);
+      .height(400)
+      .tickValues(["1","2","3","4","5"])
+      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
 
     chart.draw(testDataTwoDimension);
 
     var chart = d3.select('#stacked-bar-chart')
       .append('svg')
       .chart('StackedBarChart')
-      .width(500)
-      .height(400)
-      .download("#d3-download");
+      .download("#d3-download")
+      .height(400);
 
     chart.draw(stackedBarChartData);
 
@@ -305,29 +307,93 @@
 
     var groupedBarData = [
       { series: "1", values:
-        [{name: 'A', value: 4},
-         {name: 'B', value: 36}]
+        [{name: 'Apples Apples Apples Apples Apples', value: 4},
+         {name: 'Oranges Oranges Oranges Oranges Oranges', value: -36},
+         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
       { series: "2", values:
-        [{name: 'A', value: 36},
-         {name: 'B', value: 36}]
+        [{name: 'Apples Apples Apples Apples Apples', value: 36},
+         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
+         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
       { series: "3", values:
-        [{name: 'A', value: 19},
-         {name: 'B', value: 36}]
+        [{name: 'Apples Apples Apples Apples Apples', value: 19},
+         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
+         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
       { series: "4", values:
-        [{name: 'A', value: 2},
-         {name: 'B', value: 36}]
+        [{name: 'Apples Apples Apples Apples Apples', value: 2},
+         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
+         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
       { series: "5", values:
-        [{name: 'A', value: 6},
-         {name: 'B', value: 6}]
+        [{name: 'Apples Apples Apples Apples Apples', value: 6},
+         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 6},
+         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       }
     ];
 
-    // var newGroupedBarData = [
-    //   {
+    var lineChartData = [
+      { series: "Oranges", values:
+        [{year: 2005, value: 4},
+         {year: 2006, value: 36},
+         {year: 2007, value: 36},
+         {year: 2008, value: 36},
+         {year: 2009, value: 36},
+         {year: 2010, value: 36},
+         ]
+      },
+      { series: "Apples", values:
+        [{year: 2005, value: 36},
+         {year: 2006, value: 36},
+         {year: 2007, value: 36},
+         {year: 2008, value: 36},
+         {year: 2009, value: 36},
+         {year: 2010, value: 36},
+         ]
+      },
+      { series: "Bananas", values:
+        [{year: 2005, value: 19},
+         {year: 2006, value: 36},
+         {year: 2007, value: 36},
+         {year: 2008, value: 36},
+         {year: 2009, value: 36},
+         {year: 2010, value: 36},
+         ]
+      },
+      { series: "Grapes", values:
+        [{year: 2005, value: 2},
+         {year: 2006, value: 36},
+         {year: 2007, value: 36},
+         {year: 2008, value: 36},
+         {year: 2009, value: 36},
+         {year: 2010, value: 36},
+         ]
+      },
+      { series: "Kiwi", values:
+        [{year: 2005, value: 6},
+         {year: 2006, value: 6},
+         {year: 2007, value: 6},
+         {year: 2008, value: 6},
+         {year: 2009, value: 6},
+         {year: 2010, value: 6},
+         ]
+      }
+    ];
+
+    var chart = d3.select('#line-chart')
+      .append('svg')
+      .chart('LineChart')
+      .callouts(["Oranges", "Apples"])
+      .height(400)
+      .colors(d3.scale.category10());
+
+    chart.draw(lineChartData);
     //     "series":"AL",
     //     "name": "Under 5 Years",
     //     "value": 310504
@@ -449,17 +515,30 @@
     //   }
     // ]
 
+    var averagesData = [
+      {
+        name: "Regional Average Debt",
+        value: 15241.87
+      },
+      {
+        name: "National Average Debt",
+        value: 14731.54
+      }
+    ];
+
     var chart = d3.select('#grouped-bar-chart')
       .append('svg')
       .chart('GroupedBarChart')
       .width(500)
-      .height(400);
+      .height(400)
+      .tickValues(["Apples","Oranges", "Grapes","Bananas", "Peaches"])
+      .yAxisLabel("Percent")
+      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
 
     chart.draw(groupedBarData);
 
     d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
       transform: function(data) {
-        console.log(data);
 
         return data;
       }
@@ -469,9 +548,11 @@
       .append('svg')
       .chart('MyGroupedBarChart')
       .width(500)
-      .height(400);
+      .height(400)
+      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
 
     chart.draw(groupedBarData);
+
 
     // $(document).ready(function() {
 

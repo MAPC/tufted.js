@@ -4,7 +4,7 @@ var barchart = require('./lib/barChart');
 var groupedbarchart = require('./lib/groupedBarChart');
 var linechart = require('./lib/lineChart');
 var stackedbarchart = require('./lib/stackedBarChart');
-
+// var legendmixin = require('./lib/legendMixin');
 // module.exports = {
 //   barchart: barchart,
 //   basechart: basechart,
@@ -22,7 +22,7 @@ exports.basechart = basechart
 exports.groupedbarchart = groupedbarchart
 exports.linechart = linechart
 exports.stackedbarchart = stackedbarchart
-
+// exports.legendmixin = legendmixin
 
 },{"./lib/barChart":2,"./lib/baseChart":3,"./lib/groupedBarChart":4,"./lib/lineChart":5,"./lib/stackedBarChart":6}],2:[function(require,module,exports){
 d3.chart("BaseChart").extend("BarChart", {
@@ -43,24 +43,21 @@ d3.chart("BaseChart").extend("BarChart", {
       chart.yScale.range([newHeight, 0]);
     }); 
 
-    chart.areas = {};
-
-    chart.layers = {};
-
     chart.areas.yAxisLayer = chart.base.select('g').append('g')
       .classed('ylabels', true)
 
     chart.layers.bars = chart.base.select('g').append('g')
       .classed('bars', true)
 
-    // create a layer of circles that will go into
-    // a new group element on the base of the chart
+    var selection = chart.base.node().parentNode
+    chart.areas.legend = d3.select(chart.base.node().parentNode).append("div");
+
     chart.layer('bars', chart.layers.bars, {
 
-      // select the elements we wish to bind to and
-      // bind the data to them.
       dataBind: function(data) {
 
+        var chart = this.chart();
+        
         var yAxis = d3.svg.axis()
             .scale(chart.yScale)
             .tickSize(-(chart.width()), 0, 0)
@@ -71,11 +68,10 @@ d3.chart("BaseChart").extend("BarChart", {
             .call(yAxis)
           .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -35)
+            .attr("y", -40)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .style("font", "10px sans-serif")
-            .text("Percent")
+            .text(chart.yAxisLabel());
 
         chart.areas.yAxisLayer
             .selectAll("text")
@@ -85,6 +81,10 @@ d3.chart("BaseChart").extend("BarChart", {
           .scale(chart.xScale)
           .orient("bottom");
 
+        if (chart._tickValues.length > 0) {
+          xAxis.tickValues(chart._tickValues);
+        }
+
         chart.base.select('g').append('g')
               .classed('x axis',true)
               .attr("transform", "translate(0," + chart.height() + ")")
@@ -92,6 +92,44 @@ d3.chart("BaseChart").extend("BarChart", {
               .selectAll("text")
               .style("font", "10px sans-serif")
               .call(chart.wrap, 50)
+
+        chart.areas.legend
+          .append("ul")
+          .selectAll("li")
+          .data(chart.xScale.domain())
+          .enter()
+            .append("li")
+            .style("color", function(d,i) { return chart.colorScale(d) })
+            .style("font-size", "2.2em")
+            .style("line-height", ".4em")
+              .append("span")
+              .style("color", "black")
+              .style("font-size", ".40em")
+              .text(function(d) { return d });
+
+        // chart.areas.legend
+        //   .selectAll("circle")
+        // .data(chart.xScale.domain())
+        //   .enter()
+        //   .append("circle")
+        //   .attr("cx", chart.width() + chart._margin.right/8 )
+        //   .attr("cy", function(d,i) {
+        //     return  i * 15 })
+        //   .attr("r", 5)
+        //   .attr("fill", chart.color)
+
+        // chart.areas.legend
+        //   .selectAll("text")
+        // .data(chart.xScale.domain())
+        //   .enter()
+        //   .append("text")
+        //   .attr("x", chart.width() + chart._margin.right/8 + 15)
+        //   .attr("y", function(d,i) {
+        //     return i * 15 
+        //   })
+        //   .attr("dy", ".35em")
+        //   .style("text-anchor", "beginning")
+        //   .text(function(d) { return d; });
 
       return this.selectAll('.bar')
         .data(data);
@@ -114,6 +152,7 @@ d3.chart("BaseChart").extend("BarChart", {
           this.attr('x', function(d) { return chart.xScale(d.name); })
             .attr("title", function(d) { return d.name })
             .attr("data-content", function(d) { return  "Estimate: " + d.value + '%' })
+            .attr("data-legend", function(d) { return d.name })
             .attr('y', function(d) { return chart.yScale(0); })
             .attr('width', chart.xScale.rangeBand())
             .attr('height', 0)
@@ -125,7 +164,7 @@ d3.chart("BaseChart").extend("BarChart", {
               d3.select(this)
                 .style("opacity", 0.8)
             })
-            .style('fill', function(d) {return chart.color(d.name);});
+            .style('fill', function(d) {return chart.colorScale(d.name);});
         },
 
         'enter:transition': function() {
@@ -133,7 +172,7 @@ d3.chart("BaseChart").extend("BarChart", {
 
           this.duration(chart.duration)
             .attr('y', function(d) { return chart.yScale(d3.max([0, d.value])); })
-            .attr('height', function(d) { return Math.abs(chart.yScale(d.value) - chart.yScale(0)); });
+            .attr('height', function(d) { return Math.abs(chart.yScale(d.value) - chart.yScale(0)); });            
 
           $(document).ready(function () {
               $("svg rect").popover({
@@ -155,9 +194,16 @@ d3.chart("BaseChart").extend("BarChart", {
   transform: function(data) {
     var chart = this;
 
+    var max = d3.max(data, function(d) { return d.value });
+    var min = d3.min(data, function(d) { return d.value });
+
+    if (min > 0) {
+      min = 0;
+    }
+
     // // update the scales
     chart.xScale.domain(data.map(function(d) { return d.name; }));
-    chart.yScale.domain(d3.extent(data, function(d) {return d.value;}));
+    chart.yScale.domain([min,max]);
 
     return data;
   }
@@ -166,15 +212,23 @@ d3.chart("BaseChart").extend("BarChart", {
 d3.chart("BaseChart", {
 
   initialize: function () {
-    this._margin = {top: 20, right: 20, bottom: 90, left: 40};
-    this._width  = this.base.attr('width') ? this.base.attr('width') - this._margin.left - this._margin.right : 20;
-    this._height = this.base.attr('height') ? this.base.attr('height') - this._margin.top - this._margin.bottom : 20;
+    var chart = this;
 
-      this.updateContainerWidth();
-      this.updateContainerHeight();
+    chart.areas = {};
+    chart.layers = {};
+
+    this._tickValues = [];
+    this._yAxisLabel = "Y-Axis";
+    this._margin = {top: 20, right: 20, bottom: 80, left: 40};
+    this._width  = this.base.attr('width') ? this.base.attr('width') - this._margin.left - this._margin.right : this.base.node().parentNode.clientWidth - this._margin.left - this._margin.right;
+    this._height = this.base.attr('height') ? this.base.attr('height') - this._margin.top - this._margin.bottom : this.base.node().parentNode.clientHeight - this._margin.top - this._margin.bottom ;
+
+    this.updateContainerWidth();
+    this.updateContainerHeight();
 
     this.base.append('g')
       .attr('transform', 'translate(' + this._margin.left + ',' + this._margin.top + ')');
+
   },
 
   updateContainerWidth: function() { this.base.attr('width', this._width + this._margin.left + this._margin.right); },
@@ -227,6 +281,48 @@ d3.chart("BaseChart", {
 
     this.parseDate = d3.time.format("%Y").parse;
     return this.parseDate(string);
+  },
+
+  tickValues: function(collection) {
+    if (arguments.length === 0) {
+      return this._tickValues;
+    }
+
+    if (Array.isArray(collection)) {
+      this._tickValues = collection
+    } 
+
+    return this;
+  },
+
+  yAxisLabel: function(string) {
+    if (arguments.length === 0) {
+      return this._yAxisLabel;
+    }
+
+    if (typeof string === "string") {
+
+      this._yAxisLabel = string
+
+    } 
+
+    return this;
+  },
+
+  colors: function(colorScale) {
+    if (!arguments.length) {
+      return this.colorScale;
+    }
+    if (colorScale instanceof Array) {
+      colorScale = d3.scale.ordinal()
+        .range(colorScale)
+        // .domain([0, colorScale.length-1]);
+
+    }
+    this.colorScale = colorScale;
+    if (this.data) this.draw(this.data);
+
+    return this;
   },
 
   wrap: function(text, width) {
@@ -294,20 +390,16 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
     chart.on("change:height", function(newHeight) {
       chart.yScale.range([newHeight, 0]);
     });
- 
-
-    chart.areas = {};
-
-    // cache for selections that are layer bases.
-    chart.layers = {};
 
     chart.areas.yAxisLayer = chart.base.select('g').append('g')
       .classed('ylabels', true)
 
-    // -- actual layers
     chart.layers.bars = chart.base.select('g').append('g')
       .classed('bars', true)
- 
+
+    var selection = chart.base.node().parentNode
+    chart.areas.legend = d3.select(chart.base.node().parentNode).append("div");
+
     chart.layer('bars', chart.layers.bars, {
       dataBind: function(data) {
         var chart = this.chart();
@@ -322,14 +414,18 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
             .call(yAxis)
           .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -35)
+            .attr("y", -40)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Percent");
- 
+            .text(chart.yAxisLabel());
+
         var xAxis = d3.svg.axis()
           .scale(chart.xScale)
-          .orient("bottom");
+          .orient("bottom")
+
+        if (chart._tickValues.length > 0) {
+          xAxis.tickValues(chart._tickValues);
+        }
 
         chart.base.select('g').append('g')
               .classed('x axis', true)
@@ -364,40 +460,54 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
             .attr("title", function(d) { return d.name })
             .attr("data-content", function(d) { return  "Estimate: " + d.value + '%' })
             .attr('class', 'bar')
+            .attr("data-legend", function(d) { return d.name })
             .attr("width", chart.x1Scale.rangeBand())
-            .style("fill", function(d) { return chart.color(d.name); })
+            .style("fill", function(d,i) { return chart.colorScale(d.name);; })
             .attr("x", function(d) { return chart.x1Scale(d.name); })
-            .attr("y", chart.height())
+            .attr('y', function(d) { return chart.yScale(0); })
             .attr("height", 0);
 
-          this.selectAll("text")
-              .data(function(d) { return d.values})
-            .enter().append("text")
-              .style("text-anchor", "middle")
-              .attr("x", function(d) { return chart.x1Scale(d.name) + chart.x1Scale.rangeBand()/2 })
-              .attr("y", function(d) { return chart.yScale(d.value/2); })
-              .text(function(d) { return d.value })
+        chart.areas.legend
+          .append("ul")
+          .selectAll("li")
+          .data(chart.x1Scale.domain())
+          .enter()
+            .append("li")
+            .style("color", function(d,i) { return chart.colorScale(d) })
+            .style("font-size", "2.2em")
+            .style("line-height", ".4em")
+              .append("span")
+              .style("color", "black")
+              .style("font-size", ".40em")
+              .text(function(d) { return d });
 
-          this.selectAll("line")
-              .data(function(d) { return d.values })
-            .enter().append("line")
-              .attr("class", "error")
-              .attr("x1", function(d) { return chart.x1Scale(d.name) + (chart.x1Scale.rangeBand()/2); })
-              .attr("y1", function(d) { return chart.yScale((d.value + d.error)) })
-              .attr("x2", function(d) { return chart.x1Scale(d.name) + (chart.x1Scale.rangeBand()/2); })
-              .attr("y2", function(d) { return chart.yScale((d.value - d.error)) })
+          // this.selectAll("text")
+          //     .data(function(d) { return d.values})
+          //   .enter().append("text")
+          //     .style("text-anchor", "middle")
+          //     .attr("x", function(d) { return chart.x1Scale(d.name) + chart.x1Scale.rangeBand()/2 })
+          //     .attr("y", function(d) { return chart.yScale(d.value/2); })
+          //     .text(function(d) { return d.value })
+
+          // this.selectAll("line")
+          //     .data(function(d) { return d.values })
+          //   .enter().append("line")
+          //     .attr("class", "error")
+          //     .attr("x1", function(d) { return chart.x1Scale(d.name) + (chart.x1Scale.rangeBand()/2); })
+          //     .attr("y1", function(d) { return chart.yScale((d.value + d.error)) })
+          //     .attr("x2", function(d) { return chart.x1Scale(d.name) + (chart.x1Scale.rangeBand()/2); })
+          //     .attr("y2", function(d) { return chart.yScale((d.value - d.error)) })
         },
  
         "merge:transition": function() {
           var chart = this.chart();
- 
+
           this.duration(chart.duration)
               .attr("transform", function(d, i) {return "translate(" + chart.xScale(d.series) + ",0)"; })
             .selectAll(".bar")
               .attr("width", chart.x1Scale.rangeBand())
-              .attr("x", function(d) { return chart.x1Scale(d.name); })
-              .attr("y", function(d, i) { return chart.yScale(d.value); })
-              .attr("height", function(d, i) { return chart.height() - chart.yScale(d.value); });
+            .attr('y', function(d) { return chart.yScale(d3.max([0, d.value])); })
+            .attr('height', function(d) { return Math.abs(chart.yScale(d.value) - chart.yScale(0)); });
 
           $(document).ready(function () {
             $("svg rect").popover({
@@ -413,9 +523,9 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
 
     },
 
+
     transform: function(data) {
       var chart = this;
-
 
       // data standards? :(
       // var series = [];
@@ -440,18 +550,33 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
       // });
 
 
+
       var buffer = [];
       var x1domain = data[0].values.forEach(function(d) {
         buffer.push(d.name);
       });
       
-      chart.xScale.domain(data.map(function(d) { return d.series; }));
-      chart.x1Scale.domain(buffer).rangeRoundBands([0, chart.xScale.rangeBand()]);
-      chart.yScale.domain([0, d3.max(data, function(d) { 
+      var max = d3.max(data, function(d) { 
         return d3.max(d.values, function(d) { 
           return d.value; 
         }); 
-      })]);
+      });
+
+      var min = d3.min(data, function(d) {
+        return d3.min(d.values, function(d) {
+          return d.value;
+        })
+      });
+
+      if (min > 0) {
+        min = 0;
+      }
+
+      chart.xScale.domain(data.map(function(d) { return d.series; }));
+      chart.x1Scale.domain(buffer).rangeRoundBands([0, chart.xScale.rangeBand()]);
+      chart.yScale.domain([min, max]);
+      // chart.colorScale
+      //   .domain(chart.x1Scale());
 
       return data;
   }
@@ -461,7 +586,6 @@ d3.chart("BaseChart").extend("LineChart", {
 
   initialize: function() {
     var chart = this;
-
     chart._callouts = [];
 
     chart.xScale = d3.time.scale()
@@ -484,10 +608,6 @@ d3.chart("BaseChart").extend("LineChart", {
       chart.yScale.range([newHeight, 0]);
     }); 
 
-    chart.areas = {};
-
-    chart.layers = {};
-
     chart.areas.yAxisLayer = chart.base.select('g').append('g')
       .classed('ylabels', true)
 
@@ -499,6 +619,9 @@ d3.chart("BaseChart").extend("LineChart", {
 
     chart.layers.labels = chart.base.select('g').append('g')
       .classed('text-labels', true)
+
+    var selection = chart.base.node().parentNode
+    chart.areas.legend = d3.select(chart.base.node().parentNode).append("div");
 
     // create a layer of circles that will go into
     // a new group element on the base of the chart
@@ -512,16 +635,17 @@ d3.chart("BaseChart").extend("LineChart", {
         var yAxis = d3.svg.axis()
           .scale(chart.yScale)
           .tickSize(-chart.width(), 0, 0)
-          .orient("left");
+          .orient("left")
+          .tickFormat(d3.format(".2s"));;
 
         chart.areas.yAxisLayer
             .call(yAxis)
           .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -35)
+            .attr("y", -40)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Percent");
+            .text(chart.yAxisLabel());
 
         var xAxis = d3.svg.axis()
           .scale(chart.xScale)
@@ -533,6 +657,27 @@ d3.chart("BaseChart").extend("LineChart", {
               .call(xAxis)
             .selectAll("text")
               .call(chart.wrap, 50)
+
+
+        chart.areas.legend
+          .append("ul")
+          .selectAll("li")
+          .data(function() { 
+            if (chart.callouts().length > 0) {
+              return chart.callouts();
+            } else {
+              return data.map(function(d) { return d.series }) ;
+            }
+          })
+          .enter()
+            .append("li")
+            .style("color", function(d,i) { return chart.colorScale(d) })
+            .style("font-size", "2.2em")
+            .style("line-height", ".4em")
+              .append("span")
+              .style("color", "black")
+              .style("font-size", ".40em")
+              .text(function(d) { return d });
 
       return this.selectAll('.line')
         .data(data);
@@ -551,40 +696,47 @@ d3.chart("BaseChart").extend("LineChart", {
         'enter': function() {
           var chart = this.chart();
           this.attr('d', function(d) { return chart.renderLine(d.values); })
-            .attr("class", "line")
-            .style("stroke", function(d) {
+            .attr("class", function(d,i) {
+              if (chart.matchWithCallouts(d.series)) {
+                var str = d.series.replace(/\s/g, '');
+                return "line callout callout-" + str;
+              } else {
+                return "line line-" + 1;
+              }     
+
+            })
+            .style("stroke", function(d,i) {
               if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
-                return chart.color(d.series)
+                return chart.colorScale(d.series); 
               } else {
                 return "Lightgray"
               }       
             })
             .on("mouseover", function(d,i) {
+
               d3.select(this)
                 .style("stroke-width", "7");
+
+              d3.select(chart.layers.labels[0][0].childNodes[i]).style("display", "block");
+
             })
             .on("mouseout", function(d,i) {
               d3.select(this)
                 .transition()
                 .duration(350)
                 .style("stroke-width", "3");
-            }); 
 
-          // this.append("text")
-          //   .datum(function(d) { return { name: d.series, value: d.values[d.values.length - 1] }; })
-          //     .attr("transform", function(d) { return "translate(" + (chart.xScale(d.value.year) + 10) + "," + chart.yScale(d.value.value) + ")"; })
-          //     .attr("x", 3)
-          //     .attr("dy", ".15em")
-          //     .attr("id", function(d,i) { return "label" + i })
-          //     .text(function(d) { return d.name; });
+              if (chart._callouts.indexOf(d.series) < 0 && chart._callouts.length > 0) {
+                d3.select(chart.layers.labels[0][0].childNodes[i])
+                  .transition()
+                  .delay(350)
+                  .style("display", "none");  
+              }
+            }); 
         },
 
         'enter:transition': function() {
           var chart = this.chart();
-
-          // this.duration(chart.duration)
-          //   .attr('y', function(d) { return chart.yScale(d3.max([0, d.value])); })
-          //   .attr('height', function(d) { return Math.abs(chart.yScale(d.value) - chart.yScale(0)); });
 
           $(document).ready(function () {
               $("svg circle").popover({
@@ -636,6 +788,7 @@ d3.chart("BaseChart").extend("LineChart", {
                 .duration(150)
                 .attr("r", "3")
             });
+
         },
 
         'enter:transition': function () {
@@ -670,7 +823,15 @@ d3.chart("BaseChart").extend("LineChart", {
             .attr("x", 3)
             .attr("dy", ".15em")
             .attr("id", function(d,i) { return "label" + i })
-            .text(function(d) { return d.series; });
+            .text(function(d) { return d.series; })
+            .call(chart.wrap, 215)
+            .style("display", function (d) {
+              if (chart._callouts.indexOf(d.series) > -1 || chart._callouts.length == 0) {
+                return "block"
+              } else {
+                return "none"
+              }
+            });
 
         }
       }
@@ -700,8 +861,47 @@ d3.chart("BaseChart").extend("LineChart", {
     var chart = this;
     // update the scales
 
-    chart.xScale.domain(d3.extent([2005,2006,2007,2008,2009,2010,2011,2012].map(function(d) { return chart.parseDate(d.toString()) })));
-    chart.yScale.domain([30,60]);
+    data.forEach(function(d) {
+      d.values.forEach(function(d) {
+        d.year = chart.parseDate((d.year).toString());
+      });
+    });
+
+
+    var buffer = [];
+    data[0].values.forEach(function(d) {
+      buffer.push(d.year);
+    });
+
+    var max = d3.max(data, function(d) { 
+      return d3.max(d.values, function(d) { 
+        return d.value; 
+      }); 
+    });
+
+    var min = d3.min(data, function(d) {
+      return d3.min(d.values, function(d) {
+        return d.value;
+      })
+    });
+
+    chart.xScale.domain(d3.extent(buffer));
+    chart.yScale.domain([min,max]);
+
+    if (chart._callouts) {
+
+      chart._callouts.forEach(function(d) {
+        var pluck = [];
+        pluck = data.filter(function(f) { 
+          return f.series == d; 
+        });
+        data = data.filter(function(f) {
+          return f.series !== d;
+        });
+        data.push(pluck[0]);
+      });
+      
+    }
 
     return data;
   }
@@ -731,12 +931,6 @@ d3.chart('BaseChart').extend('StackedBarChart', {
     chart.on("change:height", function(newHeight) {
       chart.yScale.range([newHeight, 0]);
     });
- 
-
-    chart.areas = {};
-
-    // cache for selections that are layer bases.
-    chart.layers = {};
 
     chart.areas.yAxisLayer = chart.base.select('g').append('g')
       .classed('ylabels', true)
@@ -745,6 +939,9 @@ d3.chart('BaseChart').extend('StackedBarChart', {
     chart.layers.bars = chart.base.select('g').append('g')
       .classed('bars', true)
  
+    chart.areas.legend = chart.base.select('g').append('g')
+          .classed('legend', true)
+
     chart.layer('bars', chart.layers.bars, {
       dataBind: function(data) {
         var chart = this.chart();
@@ -759,10 +956,10 @@ d3.chart('BaseChart').extend('StackedBarChart', {
             .call(yAxis)
           .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -35)
+            .attr("y", -40)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Percent");
+            .text(chart.yAxisLabel());
  
         chart.areas.yAxisLayer
             .selectAll("text")

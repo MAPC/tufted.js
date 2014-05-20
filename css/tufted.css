@@ -2,8 +2,16 @@ text {
   font: 10px sans-serif;
 }
 
+.callout-Oranges {
+  stroke: purple;
+}
+
 rect {
   opacity: 0.8;
+}
+
+#line-chart {
+  width: 500px;
 }
 
 .charts {

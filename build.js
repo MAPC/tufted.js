@@ -3,7 +3,7 @@ var barchart = require('./lib/barChart');
 var groupedbarchart = require('./lib/groupedBarChart');
 var linechart = require('./lib/lineChart');
 var stackedbarchart = require('./lib/stackedBarChart');
-
+// var legendmixin = require('./lib/legendMixin');
 // module.exports = {
 //   barchart: barchart,
 //   basechart: basechart,
@@ -21,4 +21,4 @@ exports.basechart = basechart
 exports.groupedbarchart = groupedbarchart
 exports.linechart = linechart
 exports.stackedbarchart = stackedbarchart
-
+// exports.legendmixin = legendmixin
