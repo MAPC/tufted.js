@@ -703,7 +703,9 @@ d3.chart("BaseChart").extend("LineChart", {
               } else {
                 return "line line-" + 1;
               }     
-
+            })
+            .attr("data-content", function(d) {
+              return d.series;
             })
             .style("stroke", function(d,i) {
               if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
@@ -715,23 +717,34 @@ d3.chart("BaseChart").extend("LineChart", {
             .on("mouseover", function(d,i) {
 
               d3.select(this)
-                .style("stroke-width", "7");
+                .style("stroke", function (d) {
+                  if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
+                    return chart.colorScale(d.series); 
+                  } else {
+                    return "darkgray"
+                  }      
+                });
 
-              d3.select(chart.layers.labels[0][0].childNodes[i]).style("display", "block");
+              d3.select(this)
+                .style("stroke-width", "7");
 
             })
             .on("mouseout", function(d,i) {
+
+              d3.select(this)
+                .style("stroke", function (d) {
+                  if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
+                    return chart.colorScale(d.series); 
+                  } else {
+                    return "Lightgray"
+                  }   
+                });
+   
+
               d3.select(this)
                 .transition()
                 .duration(350)
                 .style("stroke-width", "3");
-
-              if (chart._callouts.indexOf(d.series) < 0 && chart._callouts.length > 0) {
-                d3.select(chart.layers.labels[0][0].childNodes[i])
-                  .transition()
-                  .delay(350)
-                  .style("display", "none");  
-              }
             }); 
         },
 
@@ -800,40 +813,15 @@ d3.chart("BaseChart").extend("LineChart", {
                 'html': true
             });
           });
-        }
-      }
-    });
 
-    chart.layer('text-labels', chart.layers.labels, {
-      dataBind: function(data) {
-        return this.selectAll("text-labels")
-                  .data(data);
-      },
-
-      insert: function () {
-        return this.append("text")
-                  .attr("class", "text-labels")
-
-      },
-      events: {
-        'enter': function () {
-          var chart = this.chart();
-
-          this.attr("transform", function(d,i) { return "translate(" + (chart.xScale((d.values[d.values.length - 1]).year) + 10) + "," + chart.yScale((d.values[d.values.length - 1]).value) + ")"; })
-            .attr("x", 3)
-            .attr("dy", ".15em")
-            .attr("id", function(d,i) { return "label" + i })
-            .text(function(d) { return d.series; })
-            .call(chart.wrap, 215)
-            .style("display", function (d) {
-              if (chart._callouts.indexOf(d.series) > -1 || chart._callouts.length == 0) {
-                return "block"
-              } else {
-                return "none"
-              }
+          $(document).ready( function () {
+            $("svg path").popover({
+                'container': 'body',
+                'placement': 'top',
+                'trigger': 'hover',
+                'html': true
             });
-
-        }
+          });        }
       }
     });
 
