@@ -91,7 +91,7 @@ d3.chart("BaseChart").extend("BarChart", {
               .call(xAxis)
               .selectAll("text")
               .style("font", "10px sans-serif")
-              .call(chart.wrap, 50)
+              .call(chart.wrap, 60)
 
         chart.areas.legend
           .append("ul")
@@ -219,12 +219,28 @@ d3.chart("BaseChart", {
 
     this._tickValues = [];
     this._yAxisLabel = "Y-Axis";
-    this._margin = {top: 20, right: 20, bottom: 80, left: 40};
-    this._width  = this.base.attr('width') ? this.base.attr('width') - this._margin.left - this._margin.right : this.base.node().parentNode.clientWidth - this._margin.left - this._margin.right;
-    this._height = this.base.attr('height') ? this.base.attr('height') - this._margin.top - this._margin.bottom : this.base.node().parentNode.clientHeight - this._margin.top - this._margin.bottom ;
-
+    this._margin = {top: 20, right: 20, bottom: 80, left: 60};
+    this._width  = setInitialWidth(this);
+    this._height = setInitialHeight(this);
+    this.colorScale = d3.scale.category10();
     this.updateContainerWidth();
     this.updateContainerHeight();
+
+    function setInitialWidth (that) {
+      if (that.base.attr('width')) {
+        return that.base.attr('width') - that._margin.left - that._margin.right;
+      } else {
+        return that.base.node().parentNode.clientWidth - that._margin.left - that._margin.right;
+      }
+    }
+
+    function setInitialHeight(that) {
+      if (that.base.attr('height')) {
+        return that.base.attr('height') - that._margin.top - that._margin.bottom;
+      } else {
+        return that.base.node().parentNode.clientHeight - that._margin.top - that._margin.bottom;
+      }
+    }
 
     this.base.append('g')
       .attr('transform', 'translate(' + this._margin.left + ',' + this._margin.top + ')');
@@ -295,23 +311,36 @@ d3.chart("BaseChart", {
     return this;
   },
 
+  xScale: function (scale_object) {
+    if (!arguments.length) {
+      scale_object = d3.scale.ordinal()
+    }
+    if (colorScale instanceof Object) {
+      scale_object = d3.scale.ordinal()
+        .range(colorScale)
+    }
+    if (this.data) this.draw(this.data);
+
+    return this;
+  },
+
   yAxisLabel: function(string) {
     if (arguments.length === 0) {
       return this._yAxisLabel;
     }
 
     if (typeof string === "string") {
-
       this._yAxisLabel = string
-
     } 
 
     return this;
   },
 
   colors: function(colorScale) {
+
     if (!arguments.length) {
-      return this.colorScale;
+      colorScale = d3.scale.category10();
+      // return this.colorScale;
     }
     if (colorScale instanceof Array) {
       colorScale = d3.scale.ordinal()
@@ -347,21 +376,6 @@ d3.chart("BaseChart", {
         }
       }
     });
-  },
-
-  download: function(element) {
-    var chart = this;
-    if (arguments.length === 0) {
-      return this;
-    }
-
-    var simg = new Simg((chart.base[0])[0]);
-
-    d3.select(element).on("click", function() {
-      simg.download();
-    });
-    
-    return this;
   }
 });
 },{}],4:[function(require,module,exports){
@@ -588,24 +602,25 @@ d3.chart("BaseChart").extend("LineChart", {
     var chart = this;
     chart._callouts = [];
 
-    chart.xScale = d3.time.scale()
-      .range([0, chart.width()]);
+    chart.xScale = d3.scale.ordinal()
+      .rangeRoundBands([0, chart.width()], 1);
     chart.yScale = d3.scale.linear()
       .range([chart.height(), 0]);
     chart.color = d3.scale.category10();
 
     chart.renderLine = d3.svg.line()
+      .interpolate("linear")
       .x(function(d) { return chart.xScale(d.year); })
       .y(function(d) { return chart.yScale(d.value); });
 
     chart.duration = 500;
 
     chart.on('change:width', function(newWidth) {
-      chart.xScale.range([0, newWidth]);
+      chart.xScale.rangeRoundBands([0, chart.width()], 1);
     });
 
     chart.on('change:height', function(newHeight) {
-      chart.yScale.range([newHeight, 0]);
+      chart.yScale.range([chart.height(), 0]);
     }); 
 
     chart.areas.yAxisLayer = chart.base.select('g').append('g')
@@ -642,7 +657,7 @@ d3.chart("BaseChart").extend("LineChart", {
             .call(yAxis)
           .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -40)
+            .attr("y", -50)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .text(chart.yAxisLabel());
@@ -788,7 +803,7 @@ d3.chart("BaseChart").extend("LineChart", {
             .attr("r", 3)
             .attr("cx", function(d) { return chart.xScale(d.year) })
             .attr("cy", function(d) { return chart.yScale(d.value) })
-            .attr("title", function(d) { return (d.year).getFullYear() })
+            .attr("title", function(d) { return (d.year) })
             .attr("data-content", function(d) { return "Estimate: " + d.value + "%" })
             .attr("fill", "black")
             .on("mouseover", function(d, i) {
@@ -851,7 +866,7 @@ d3.chart("BaseChart").extend("LineChart", {
 
     data.forEach(function(d) {
       d.values.forEach(function(d) {
-        d.year = chart.parseDate((d.year).toString());
+        d.year = d.year.toString();
       });
     });
 
@@ -872,8 +887,9 @@ d3.chart("BaseChart").extend("LineChart", {
         return d.value;
       })
     });
+    console.log(buffer);
 
-    chart.xScale.domain(d3.extent(buffer));
+    chart.xScale.domain(buffer);
     chart.yScale.domain([min,max]);
 
     if (chart._callouts) {
@@ -888,7 +904,6 @@ d3.chart("BaseChart").extend("LineChart", {
         });
         data.push(pluck[0]);
       });
-      
     }
 
     return data;

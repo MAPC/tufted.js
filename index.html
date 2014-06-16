@@ -292,7 +292,7 @@
     var chart = d3.select('#stacked-bar-chart')
       .append('svg')
       .chart('StackedBarChart')
-      .download("#d3-download")
+      // .download("#d3-download")
       .height(400);
 
     chart.draw(stackedBarChartData);
@@ -338,50 +338,51 @@
       }
     ];
 
+
     var lineChartData = [
-      { series: "Oranges", values:
-        [{year: 2005, value: 4},
-         {year: 2006, value: 36},
-         {year: 2007, value: 36},
-         {year: 2008, value: 36},
-         {year: 2009, value: 36},
-         {year: 2010, value: 36},
-         ]
-      },
-      { series: "Apples", values:
-        [{year: 2005, value: 36},
-         {year: 2006, value: 36},
-         {year: 2007, value: 36},
-         {year: 2008, value: 36},
-         {year: 2009, value: 36},
-         {year: 2010, value: 36},
-         ]
-      },
-      { series: "Bananas", values:
-        [{year: 2005, value: 19},
-         {year: 2006, value: 36},
-         {year: 2007, value: 36},
-         {year: 2008, value: 36},
-         {year: 2009, value: 36},
-         {year: 2010, value: 36},
-         ]
-      },
-      { series: "Grapes", values:
-        [{year: 2005, value: 2},
-         {year: 2006, value: 36},
-         {year: 2007, value: 36},
-         {year: 2008, value: 36},
-         {year: 2009, value: 36},
-         {year: 2010, value: 36},
-         ]
-      },
+      // { series: "Oranges", values:
+      //   [{year: "A", value: 4},
+      //    {year: "B", value: 36},
+      //    {year: "C", value: 36},
+      //    {year: "D", value: 36},
+      //    {year: "E", value: 36},
+      //    {year: "F", value: 36},
+      //    ]
+      // },
+      // { series: "Apples", values:
+      //   [{year: "A", value: 36},
+      //    {year: "B", value: 36},
+      //    {year: "C", value: 36},
+      //    {year: "D", value: 36},
+      //    {year: "E", value: 36},
+      //    {year: "F", value: 36},
+      //    ]
+      // },
+      // { series: "Bananas", values:
+      //   [{year: "A", value: 19},
+      //    {year: "B", value: 36},
+      //    {year: "C", value: 36},
+      //    {year: "D", value: 36},
+      //    {year: "E", value: 36},
+      //    {year: "F", value: 36},
+      //    ]
+      // },
+      // { series: "Grapes", values:
+      //   [{year: "A", value: 2},
+      //    {year: "B", value: 23},
+      //    {year: "C", value: 53},
+      //    {year: "D", value: 14},
+      //    {year: "E", value: 34},
+      //    {year: "F", value: 6},
+      //    ]
+      // },
       { series: "Kiwi", values:
-        [{year: 2005, value: 6},
-         {year: 2006, value: 6},
-         {year: 2007, value: 6},
-         {year: 2008, value: 6},
-         {year: 2009, value: 6},
-         {year: 2010, value: 6},
+        [{year: "A", value: 6},
+         {year: "B", value: 13},
+         {year: "C", value: 12},
+         {year: "D", value: 3},
+         {year: "E", value: 9},
+         {year: "F", value: 11},
          ]
       }
     ];
@@ -389,131 +390,11 @@
     var chart = d3.select('#line-chart')
       .append('svg')
       .chart('LineChart')
-      .callouts(["Oranges", "Apples"])
+      .width(600)
       .height(400)
       .colors(d3.scale.category10());
 
     chart.draw(lineChartData);
-    //     "series":"AL",
-    //     "name": "Under 5 Years",
-    //     "value": 310504
-    //   },
-    //   {
-    //     "series":"AL",
-    //     "name":"14 to 17 Years",
-    //     "value": 259034
-    //   },
-    //   {
-    //     "series": "AL",
-    //     "name":"18 to 24 Years",
-    //     "value": 450818
-    //   },
-    //   {
-    //     "series": "AL",
-    //     "name": "25 to 44 Years",
-    //     "value": 1231572
-    //   },
-    //   {
-    //     "series": "AL",
-    //     "name": "45 to 64 Years",
-    //     "value": 1215966
-    //   },
-    //   {  
-    //     "series": "AL",
-    //     "name": "65 Years and Over",
-    //     "value": 641667
-    //   },
-    //   {
-    //     "series":"AK",
-    //     "name": "Under 5 Years",
-    //     "value": 52083
-    //   },
-    //   {
-    //     "series":"AK",
-    //     "name":"14 to 17 Years",
-    //     "value": 42153
-    //   },
-    //   {
-    //     "series": "AK",
-    //     "name":"18 to 24 Years",
-    //     "value": 74257
-    //   },
-    //   {
-    //     "series": "AK",
-    //     "name": "25 to 44 Years",
-    //     "value": 198724
-    //   },
-    //   {
-    //     "series": "AK",
-    //     "name": "45 to 64 Years",
-    //     "value": 183159
-    //   },
-    //   {  
-    //     "series": "AK",
-    //     "name": "65 Years and Over",
-    //     "value": 50277
-    //   },
-    //   {
-    //     "series":"AZ",
-    //     "name": "Under 5 Years",
-    //     "value": 515910
-    //   },
-    //   {
-    //     "series":"AZ",
-    //     "name":"14 to 17 Years",
-    //     "value": 362642
-    //   },
-    //   {
-    //     "series": "AZ",
-    //     "name":"18 to 24 Years",
-    //     "value": 601943
-    //   },
-    //   {
-    //     "series": "AZ",
-    //     "name": "25 to 44 Years",
-    //     "value": 1804762
-    //   },
-    //   {
-    //     "series": "AZ",
-    //     "name": "45 to 64 Years",
-    //     "value": 1523681
-    //   },
-    //   {  
-    //     "series": "AZ",
-    //     "name": "65 Years and Over",
-    //     "value": 862573
-    //   },
-    //   {
-    //     "series":"AR",
-    //     "name": "Under 5 Years",
-    //     "value": 202070
-    //   },
-    //   {
-    //     "series":"AR",
-    //     "name":"14 to 17 Years",
-    //     "value": 157204
-    //   },
-    //   {
-    //     "series": "AR",
-    //     "name":"18 to 24 Years",
-    //     "value": 264160
-    //   },
-    //   {
-    //     "series": "AR",
-    //     "name": "25 to 44 Years",
-    //     "value": 754420
-    //   },
-    //   {
-    //     "series": "AR",
-    //     "name": "45 to 64 Years",
-    //     "value": 727124
-    //   },
-    //   {  
-    //     "series": "AR",
-    //     "name": "65 Years and Over",
-    //     "value": 407205
-    //   }
-    // ]
 
     var averagesData = [
       {
@@ -535,6 +416,8 @@
       .yAxisLabel("Percent")
       .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
 
+      console.log(chart.height());
+
     chart.draw(groupedBarData);
 
     d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
@@ -549,52 +432,50 @@
       .chart('MyGroupedBarChart')
       .width(500)
       .height(400)
-      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
+      .colors();
 
     chart.draw(groupedBarData);
 
 
-    // $(document).ready(function() {
+    $(document).ready(function() {
 
-    //   var saveImages = function(callback) {
-    //     var zip = new JSZip();
-    //     var img = zip.folder("images");
+      var saveImages = function(callback) {
+        var zip = new JSZip();
+        var img = zip.folder("images");
 
-    //     $("svg").each(function(index, svg) {
-    //       var simg = new Simg(svg);
+        $("svg").each(function(index, svg) {
+          var simg = new Simg(svg);
 
-    //       simg.toImg(function(image) {
-    //         var filedata = Simg.getBase64Image(image);
-    //         var filename = "chart-" + index + ".png"
-    //         img.file(filename, filedata, {base64: true})
-    //       })
+          simg.toImg(function(image) {
+            var filedata = Simg.getBase64Image(image);
+            var filename = "chart-" + index + ".png"
+            img.file(filename, filedata, {base64: true})
+          })
 
-    //     });
+        });
 
-    //     setTimeout(function(){
-    //       if(callback) callback(zip);
-    //     }, 500);
+        setTimeout(function(){
+          if(callback) callback(zip);
+        }, 500);
         
-    //   }
+      }
 
-    //   var saveZip = function(zip) {
-    //     var content = zip.generate({type:"blob"});
-    //     saveAs(content, "example.zip");
-    //   }
+      var saveZip = function(zip) {
+        var content = zip.generate({type:"blob"});
+        saveAs(content, "example.zip");
+      }
 
-    //   // log("7");
+      var downloadSvgs = function () {
+        saveImages(function(zip) {
+          saveZip(zip);
+        })
+      }
 
-    //   var downloadSvgs = function () {
-    //     saveImages(function(zip) {
-    //       saveZip(zip);
-    //     })
-    //   }
+      $("#d3-download").on("click", function() {
+        downloadSvgs();
+      });
 
-    //   $("#d3-download").on("click", function() {
-    //     downloadSvgs();
-    //   });
-
-    // });
+    });
 
   </script>
 </body>
