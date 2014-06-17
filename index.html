@@ -22,7 +22,7 @@
   <script type="text/javascript" src="required/jszip.min.js"></script>
   <script type="text/javascript" src="required/FileSaver.js"></script>
 
-  <script src="/-/live-reload.js"></script>
+  <script src="http://localhost:35729/livereload.js"></script>
   <script src="tufted.js"></script>
 
   <script>
@@ -338,6 +338,46 @@
       }
     ];
 
+    var averagesData = [
+      {
+        name: "Regional Average Debt",
+        value: 15241.87
+      },
+      {
+        name: "National Average Debt",
+        value: 14731.54
+      }
+    ];
+
+    var chart = d3.select('#grouped-bar-chart')
+      .append('svg')
+      .chart('GroupedBarChart')
+      .width(500)
+      .height(400)
+      .tickValues(["Apples","Oranges", "Grapes","Bananas", "Peaches"])
+      .yAxisLabel("Percent")
+      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+
+      console.log(chart.height());
+
+    chart.draw(groupedBarData);
+
+    d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
+      transform: function(data) {
+
+        return data;
+      }
+    });
+
+    var chart = d3.select('#my-grouped-bar-chart')
+      .append('svg')
+      .chart('MyGroupedBarChart')
+      .width(500)
+      .height(400)
+      .colors();
+
+    chart.draw(groupedBarData);
+
 
     var lineChartData = [
       // { series: "Oranges", values:
@@ -395,47 +435,6 @@
       .colors(d3.scale.category10());
 
     chart.draw(lineChartData);
-
-    var averagesData = [
-      {
-        name: "Regional Average Debt",
-        value: 15241.87
-      },
-      {
-        name: "National Average Debt",
-        value: 14731.54
-      }
-    ];
-
-    var chart = d3.select('#grouped-bar-chart')
-      .append('svg')
-      .chart('GroupedBarChart')
-      .width(500)
-      .height(400)
-      .tickValues(["Apples","Oranges", "Grapes","Bananas", "Peaches"])
-      .yAxisLabel("Percent")
-      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
-
-      console.log(chart.height());
-
-    chart.draw(groupedBarData);
-
-    d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
-      transform: function(data) {
-
-        return data;
-      }
-    });
-
-    var chart = d3.select('#my-grouped-bar-chart')
-      .append('svg')
-      .chart('MyGroupedBarChart')
-      .width(500)
-      .height(400)
-      .colors();
-
-    chart.draw(groupedBarData);
-
 
     $(document).ready(function() {
 

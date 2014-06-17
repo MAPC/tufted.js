@@ -3,8 +3,11 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             js: {
-                files: ['lib/*.js'],
-                tasks: ['browserify']
+                files: ['lib/*.js', 'test/test.js'], 
+                tasks: ['browserify'],
+                options: {
+                    livereload: true
+                }
             }
         },
         browserify: {
