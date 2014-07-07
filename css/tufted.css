@@ -5,15 +5,11 @@ text {
 .callout-Oranges {
   stroke: purple;
 }
-
+/*
 rect {
   opacity: 0.8;
 }
-
-#line-chart {
-  width: 500px;
-}
-
+*/
 .charts {
   height:300px;
   width:400px;

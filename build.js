@@ -15,10 +15,8 @@ var stackedbarchart = require('./lib/stackedBarChart');
 
 
 
-
-exports.barchart = barchart
 exports.basechart = basechart
+exports.barchart = barchart
 exports.groupedbarchart = groupedbarchart
 exports.linechart = linechart
 exports.stackedbarchart = stackedbarchart
-// exports.legendmixin = legendmixin

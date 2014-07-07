@@ -8,17 +8,19 @@
 </head>
 <body>
   <a href="#" id="d3-download">Download ALl The Charts</a>
+  
   <div id="bar-chart"></div>
   <div id="grouped-bar-chart"></div>
   <div id="my-grouped-bar-chart"></div>
-  <div id="stacked-bar-chart"></div>
   <div id="line-chart"></div>
+  <div id="stacked-bar-chart"></div>
   <script src="required/simg.js"></script>
   <script src="required/d3.v3.js"></script>
   <script src="required/d3.chart.min.js"></script>
   <script src="required/jquery.js"></script>
   <script src="required/bootstrap-tooltip.js"></script>
   <script src="required/bootstrap-popover.js"></script>
+  <script src="required/modernizr.mq.js"></script>
   <script type="text/javascript" src="required/jszip.min.js"></script>
   <script type="text/javascript" src="required/FileSaver.js"></script>
 
@@ -29,186 +31,7 @@
     // development: beefy build.js:tufted.js --live
 
     var stackedBarChartData = [
-      {
-        "series":"AL",
-        "Under 5 Years":310504,
-        "5 to 13 Years":552339,
-        "14 to 17 Years":259034,
-        "18 to 24 Years":450818,
-        "25 to 44 Years":1231572,
-        "45 to 64 Years":1215966,
-        "65 Years and Over":641667
-      },
-      {
-        "series":"AK",
-        "Under 5 Years":52083,
-        "5 to 13 Years":85640,
-        "14 to 17 Years":42153,
-        "18 to 24 Years":74257,
-        "25 to 44 Years":198724,
-        "45 to 64 Years":183159,
-        "65 Years and Over":50277
-      },
-      {
-        "series":"AZ",
-        "Under 5 Years":515910,
-        "5 to 13 Years":828669,
-        "14 to 17 Years":362642,
-        "18 to 24 Years":601943,
-        "25 to 44 Years":1804762,
-        "45 to 64 Years":1523681,
-        "65 Years and Over":862573
-      },
-      {
-        "series":"AR",
-        "Under 5 Years":202070,
-        "5 to 13 Years":343207,
-        "14 to 17 Years":157204,
-        "18 to 24 Years":264160,
-        "25 to 44 Years":754420,
-        "45 to 64 Years":727124,
-        "65 Years and Over":407205
-      },
-      {
-        "series":"CA",
-        "Under 5 Years":2704659,
-        "5 to 13 Years":4499890,
-        "14 to 17 Years":2159981,
-        "18 to 24 Years":3853788,
-        "25 to 44 Years":10604510,
-        "45 to 64 Years":8819342,
-        "65 Years and Over":4114496
-      },
-      {
-        "series":"CO",
-        "Under 5 Years":358280,
-        "5 to 13 Years":587154,
-        "14 to 17 Years":261701,
-        "18 to 24 Years":466194,
-        "25 to 44 Years":1464939,
-        "45 to 64 Years":1290094,
-        "65 Years and Over":511094
-      },
-      {
-        "series":"CT",
-        "Under 5 Years":211637,
-        "5 to 13 Years":403658,
-        "14 to 17 Years":196918,
-        "18 to 24 Years":325110,
-        "25 to 44 Years":916955,
-        "45 to 64 Years":968967,
-        "65 Years and Over":478007
-      },
-      {
-        "series":"DE",
-        "Under 5 Years":59319,
-        "5 to 13 Years":99496,
-        "14 to 17 Years":47414,
-        "18 to 24 Years":84464,
-        "25 to 44 Years":230183,
-        "45 to 64 Years":230528,
-        "65 Years and Over":121688
-      },
-      {
-        "series":"DC",
-        "Under 5 Years":36352,
-        "5 to 13 Years":50439,
-        "14 to 17 Years":25225,
-        "18 to 24 Years":75569,
-        "25 to 44 Years":193557,
-        "45 to 64 Years":140043,
-        "65 Years and Over":70648
-      },
-      {
-        "series":"FL",
-        "Under 5 Years":1140516,
-        "5 to 13 Years":1938695,
-        "14 to 17 Years":925060,
-        "18 to 24 Years":1607297,
-        "25 to 44 Years":4782119,
-        "45 to 64 Years":4746856,
-        "65 Years and Over":3187797
-      },
-      {
-        "series":"GA",
-        "Under 5 Years":740521,
-        "5 to 13 Years":1250460,
-        "14 to 17 Years":557860,
-        "18 to 24 Years":919876,
-        "25 to 44 Years":2846985,
-        "45 to 64 Years":2389018,
-        "65 Years and Over":981024
-      },
-      {
-        "series":"HI",
-        "Under 5 Years":87207,
-        "5 to 13 Years":134025,
-        "14 to 17 Years":64011,
-        "18 to 24 Years":124834,
-        "25 to 44 Years":356237,
-        "45 to 64 Years":331817,
-        "65 Years and Over":190067
-      },
-      {
-        "series":"ID",
-        "Under 5 Years":121746,
-        "5 to 13 Years":201192,
-        "14 to 17 Years":89702,
-        "18 to 24 Years":147606,
-        "25 to 44 Years":406247,
-        "45 to 64 Years":375173,
-        "65 Years and Over":182150
-      },
-      {
-        "series":"IL",
-        "Under 5 Years":894368,
-        "5 to 13 Years":1558919,
-        "14 to 17 Years":725973,
-        "18 to 24 Years":1311479,
-        "25 to 44 Years":3596343,
-        "45 to 64 Years":3239173,
-        "65 Years and Over":1575308
-      },
-      {
-        "series":"IN",
-        "Under 5 Years":443089,
-        "5 to 13 Years":780199,
-        "14 to 17 Years":361393,
-        "18 to 24 Years":605863,
-        "25 to 44 Years":1724528,
-        "45 to 64 Years":1647881,
-        "65 Years and Over":813839
-      },
-      {
-        "series":"IA",
-        "Under 5 Years":201321,
-        "5 to 13 Years":345409,
-        "14 to 17 Years":165883,
-        "18 to 24 Years":306398,
-        "25 to 44 Years":750505,
-        "45 to 64 Years":788485,
-        "65 Years and Over":444554
-      },
-      {
-        "series":"KS",
-        "Under 5 Years":202529,
-        "5 to 13 Years":342134,
-        "14 to 17 Years":155822,
-        "18 to 24 Years":293114,
-        "25 to 44 Years":728166,
-        "45 to 64 Years":713663,
-        "65 Years and Over":366706
-      },
-      {
-        "series":"KY",
-        "Under 5 Years":284601,
-        "5 to 13 Years":493536,
-        "14 to 17 Years":229927,
-        "18 to 24 Years":381394,
-        "25 to 44 Years":1179637,
-        "45 to 64 Years":1134283,
-        "65 Years and Over":565867
-      },
+
       {
         "series":"LA",
         "Under 5 Years":310716,
@@ -271,31 +94,26 @@
       }
     ];
 
+
+
     var testDataTwoDimension = [
-      {name: 'A', value: 4},
-      {name: 'B', value: 36},
-      {name: 'C', value: -19},
-      {name: 'D', value: -2},
-      {name: 'E', value: 6},
+      {name: 'Apples with no worms', value: 4},
+      {name: 'Berries that are not chilled', value: 36},
+      {name: 'Carrots with shavings', value: -19},
+      {name: 'Dandelions that are inedible', value: -2},
+      {name: 'Eels named Erin', value: 6},
     ];
 
     var chart = d3.select('#bar-chart')
       .append("svg")
       .chart("BarChart")
-      .width(400)
+      // .tickValues(["1","2","3","4","5"])
       .height(400)
-      .tickValues(["1","2","3","4","5"])
-      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
+      // .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
 
     chart.draw(testDataTwoDimension);
 
-    var chart = d3.select('#stacked-bar-chart')
-      .append('svg')
-      .chart('StackedBarChart')
-      // .download("#d3-download")
-      .height(400);
 
-    chart.draw(stackedBarChartData);
 
     var testDataTwoDimension = [
       {name: 'A', value: 4},
@@ -352,10 +170,9 @@
     var chart = d3.select('#grouped-bar-chart')
       .append('svg')
       .chart('GroupedBarChart')
-      .width(500)
-      .height(400)
       .tickValues(["Apples","Oranges", "Grapes","Bananas", "Peaches"])
       .yAxisLabel("Percent")
+      .height(400)
       .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
 
       console.log(chart.height());
@@ -372,50 +189,49 @@
     var chart = d3.select('#my-grouped-bar-chart')
       .append('svg')
       .chart('MyGroupedBarChart')
-      .width(500)
-      .height(400)
-      .colors();
+      .colors()
+      .height(400);
 
     chart.draw(groupedBarData);
 
 
     var lineChartData = [
-      // { series: "Oranges", values:
-      //   [{year: "A", value: 4},
-      //    {year: "B", value: 36},
-      //    {year: "C", value: 36},
-      //    {year: "D", value: 36},
-      //    {year: "E", value: 36},
-      //    {year: "F", value: 36},
-      //    ]
-      // },
-      // { series: "Apples", values:
-      //   [{year: "A", value: 36},
-      //    {year: "B", value: 36},
-      //    {year: "C", value: 36},
-      //    {year: "D", value: 36},
-      //    {year: "E", value: 36},
-      //    {year: "F", value: 36},
-      //    ]
-      // },
-      // { series: "Bananas", values:
-      //   [{year: "A", value: 19},
-      //    {year: "B", value: 36},
-      //    {year: "C", value: 36},
-      //    {year: "D", value: 36},
-      //    {year: "E", value: 36},
-      //    {year: "F", value: 36},
-      //    ]
-      // },
-      // { series: "Grapes", values:
-      //   [{year: "A", value: 2},
-      //    {year: "B", value: 23},
-      //    {year: "C", value: 53},
-      //    {year: "D", value: 14},
-      //    {year: "E", value: 34},
-      //    {year: "F", value: 6},
-      //    ]
-      // },
+      { series: "Oranges", values:
+        [{year: "A", value: 4},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Apples", values:
+        [{year: "A", value: 36},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Bananas", values:
+        [{year: "A", value: 19},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Grapes", values:
+        [{year: "A", value: 2},
+         {year: "B", value: 23},
+         {year: "C", value: 53},
+         {year: "D", value: 14},
+         {year: "E", value: 34},
+         {year: "F", value: 6},
+         ]
+      },
       { series: "Kiwi", values:
         [{year: "A", value: 6},
          {year: "B", value: 13},
@@ -430,11 +246,18 @@
     var chart = d3.select('#line-chart')
       .append('svg')
       .chart('LineChart')
-      .width(600)
-      .height(400)
-      .colors(d3.scale.category10());
+      .colors(d3.scale.category10())
+      .height(400);
 
     chart.draw(lineChartData);
+
+    var chart = d3.select('#stacked-bar-chart')
+      .append('svg')
+      .chart('StackedBarChart')
+      // .download("#d3-download")
+      .height(400);
+
+    chart.draw(stackedBarChartData);
 
     $(document).ready(function() {
 
@@ -443,9 +266,11 @@
         var img = zip.folder("images");
 
         $("svg").each(function(index, svg) {
-          var simg = new Simg(svg);
+          var simages = [];
+          simages[index] = new Simg(svg);
 
-          simg.toImg(function(image) {
+          simages[index].toImg(function(image) {
+            console.log("bounce!");
             var filedata = Simg.getBase64Image(image);
             var filename = "chart-" + index + ".png"
             img.file(filename, filedata, {base64: true})

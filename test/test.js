@@ -1,12 +1,6 @@
 var expect = chai.expect,
     chart = undefined; // Note that should has to be executed
 
-var foobar = {
-  sayHello: function() {
-    return 'Hello World!';
-  }
-};
-
 describe('Stacked Bar Chart', function() {
   describe('public optional methods', function() {
 
@@ -87,6 +81,24 @@ describe('Bar Chart', function() {
       });
     });
   });
+
+  describe("this chart's behavior for data conversion", function () {
+    describe("#transform", function () {
+      it("returns an array", function () {
+        expect(chart.transform(randomData(7))).to.be.an("array");
+      });
+
+      it("returns an array of objects with a series key", function () {
+        expect(chart.transform(randomData(7))[0]).to.include.keys('series')
+      });
+
+      it("returns data array with correct number of objects", function () {
+        // chart.draw(randomData());
+
+        expect(chart.transform(randomData(7)).length).to.equal(7);
+      });
+    });
+  });
 });
 
 describe('Line Chart', function() {
@@ -130,7 +142,7 @@ describe('Line Chart', function() {
 
     describe("#data", function () {
       it("converts data to the correct format", function () {
-        
+
       })
     })
   });
@@ -176,3 +188,42 @@ describe('Grouped Bar Chart', function() {
     });
   });
 });
+
+function randomValue (options) {
+  var min = -100;
+  var max = 100;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomString()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
+function randomData (seriesCount) {
+  var seriesCount = seriesCount === undefined ? 1 : seriesCount;
+  var collection = [];
+  var names = [];
+
+  for (var i = 0; i < 5; i++) {
+    names.push(randomString());
+  }
+
+  for (var i = 0; i < seriesCount; i++) {
+    var values = [];
+
+    names.forEach(function (name, index) {
+      values.push({name: name, value: randomValue()});
+    });
+
+    collection.push({series: randomString(), values: values})
+  }
+
+  return collection;
+}
