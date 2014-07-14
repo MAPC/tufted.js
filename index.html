@@ -15,7 +15,7 @@
   <div id="line-chart"></div>
   <div id="stacked-bar-chart"></div>
   <script src="required/simg.js"></script>
-  <script src="required/d3.v3.js"></script>
+  <script src="required/d3.js"></script>
   <script src="required/d3.chart.min.js"></script>
   <script src="required/jquery.js"></script>
   <script src="required/bootstrap-tooltip.js"></script>
@@ -107,7 +107,8 @@
     var chart = d3.select('#bar-chart')
       .append("svg")
       .chart("BarChart")
-      // .tickValues(["1","2","3","4","5"])
+      .format("$11,.2f")
+      .tickValues(["Grapes", "Oranges", "Apples", "Bananas", "Kiwi"]) 
       .height(400)
       // .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
 
@@ -124,31 +125,31 @@
     ];
 
     var groupedBarData = [
-      { series: "1", values:
+      { series: "Trees", values:
         [{name: 'Apples Apples Apples Apples Apples', value: 4},
          {name: 'Oranges Oranges Oranges Oranges Oranges', value: -36},
          {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
          {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
-      { series: "2", values:
+      { series: "Forests", values:
         [{name: 'Apples Apples Apples Apples Apples', value: 36},
          {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
          {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
          {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
-      { series: "3", values:
+      { series: "Grapes", values:
         [{name: 'Apples Apples Apples Apples Apples', value: 19},
          {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
          {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
          {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
-      { series: "4", values:
+      { series: "Eggs", values:
         [{name: 'Apples Apples Apples Apples Apples', value: 2},
          {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
          {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
          {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
       },
-      { series: "5", values:
+      { series: "Reefs", values:
         [{name: 'Apples Apples Apples Apples Apples', value: 6},
          {name: 'Oranges Oranges Oranges Oranges Oranges', value: 6},
          {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
@@ -170,7 +171,6 @@
     var chart = d3.select('#grouped-bar-chart')
       .append('svg')
       .chart('GroupedBarChart')
-      .tickValues(["Apples","Oranges", "Grapes","Bananas", "Peaches"])
       .yAxisLabel("Percent")
       .height(400)
       .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);

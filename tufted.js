@@ -56,9 +56,10 @@ d3.chart("BaseChart").extend("BarChart", {
         
         var yAxis = d3.svg.axis()
             .scale(chart.yScale)
-            .tickSize(-(chart.width()), 0, 0)
+            .tickSize(-(chart.width()), 0)
             .orient("left")
-            .tickFormat(d3.format(".2s"));
+            .tickFormat(chart.format());
+            var formatSomething = d3.format("$011,.2f");
 
         chart.areas.yAxisLayer
             .call(yAxis)
@@ -125,31 +126,6 @@ d3.chart("BaseChart").extend("BarChart", {
             })
             .call(chart.wrap, 85)
 
-
-        // chart.areas.legend
-        //   .selectAll("circle")
-        // .data(chart.xScale.domain())
-        //   .enter()
-        //   .append("circle")
-        //   .attr("cx", chart.width() + chart._margin.right/8 )
-        //   .attr("cy", function(d,i) {
-        //     return  i * 15 })
-        //   .attr("r", 5)
-        //   .attr("fill", chart.color)
-
-        // chart.areas.legend
-        //   .selectAll("text")
-        // .data(chart.xScale.domain())
-        //   .enter()
-        //   .append("text")
-        //   .attr("x", chart.width() + chart._margin.right/8 + 15)
-        //   .attr("y", function(d,i) {
-        //     return i * 15 
-        //   })
-        //   .attr("dy", ".35em")
-        //   .style("text-anchor", "beginning")
-        //   .text(function(d) { return d; });
-
       return this.selectAll('.bar')
         .data(data);
       },
@@ -171,20 +147,11 @@ d3.chart("BaseChart").extend("BarChart", {
           this.attr('x', function(d) { return chart.xScale(d.name); })
             // .attr("title", function(d) { return d.name })
             .attr("class", "bar")
-            .attr("data-content", function(d) { return  "Estimate: " + d.value + '%' })
+            .attr("data-content", function(d) { return d.value })
             .attr("data-legend", function(d) { return d.name })
             .attr('y', function(d) { return chart.yScale(0); })
             .attr('width', chart.xScale.rangeBand())
             .attr('height', 0)
-
-            // .on("mouseover", function() {
-            //   d3.select(this)
-            //     .style("opacity", 1)
-            // })
-            // .on("mouseout", function() {
-            //   d3.select(this)
-            //     .style("opacity", 0.8)
-            // })
             .style('fill', function(d) {return chart.colorScale(d.name);});
         },
 
@@ -241,13 +208,14 @@ d3.chart("BaseChart", {
 
     chart.areas = {};
     chart.layers = {};
-
     chart.areas.legend = {};
 
     chart.font = "gill sans";
     chart.font_size = "12px";
     chart.font_style = "font: "+ chart.font_size + " '" + chart.font + "';"
 
+    
+    chart._format = d3.format();
     this._tickValues = [];
     this._yAxisLabel = "Y-Axis";
     this._margin = {top: 60, right: 20, bottom: 80, left: 60};
@@ -376,6 +344,18 @@ d3.chart("BaseChart", {
     return this;
   },
 
+  format: function(string) {
+    if (arguments.length === 0) {
+      return this._format;
+    }
+
+    if (typeof string === "string") {
+      this._format = d3.format(string);
+    } 
+
+    return this;
+  },
+
   colors: function(colorScale) {
 
     if (!arguments.length) {
@@ -481,11 +461,7 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
 
         var xAxis = d3.svg.axis()
           .scale(chart.xScale)
-          .orient("bottom")
-
-        if (chart._tickValues.length > 0) {
-          xAxis.tickValues(chart._tickValues);
-        }
+          .orient("bottom");
 
         chart.base.select('g').append('g')
               .classed('x axis', true)
@@ -499,8 +475,8 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
 
         chart.areas.legend =
           chart.areas.legend
-          .selectAll(".legend")
-          .data(chart.x1Scale.domain())
+            .selectAll(".legend")
+            .data(chart.x1Scale.domain())
             .enter().append("g")
             .attr("class", "legend")
 
@@ -554,7 +530,7 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
             .enter()
           .append("rect")
             .attr("title", function(d) { return d.name })
-            .attr("data-content", function(d) { return  "Estimate: " + d.value + '%' })
+            .attr("data-content", function(d) { return d.value })
             .attr('class', 'bar')
             .attr("data-legend", function(d) { return d.name })
             .attr("width", chart.x1Scale.rangeBand())
@@ -891,7 +867,7 @@ d3.chart("BaseChart").extend("LineChart", {
             .attr("cx", function(d) { return chart.xScale(d.year) })
             .attr("cy", function(d) { return chart.yScale(d.value) })
             .attr("title", function(d) { return (d.year) })
-            .attr("data-content", function(d) { return "Estimate: " + d.value + "%" })
+            .attr("data-content", function(d) { return d.value })
             .attr("fill", "black")
             .on("mouseover", function(d, i) {
               d3.select(this)

@@ -53,7 +53,24 @@ path:hover {
   /*opacity: 0.7;*/
 }
 
-
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+    stroke-width: 0;
+}
+.axis {
+    shape-rendering: crispEdges;
+}
+.axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}
+.y.axis line, .y.axis path {
+    fill: none;
+    stroke: lightgrey;
+}
 
 .error {
   stroke: black;
