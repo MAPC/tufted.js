@@ -1,14 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-<link href="css/tufted.css" rel="stylesheet" type="text/css">
 <head>
   <meta charset="UTF-8">
+  
   <title>TuftedJS</title>
+  <style>
+    body {
+      overflow-x: hidden;
+      font-family: 'Times New Roman';
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  </style>
 </head>
 <body>
   <a href="#" id="d3-download">Download ALl The Charts</a>
-  
+  <p id="test-font-detection">Test</p>
   <div id="bar-chart"></div>
   <div id="grouped-bar-chart"></div>
   <div id="my-grouped-bar-chart"></div>
@@ -24,7 +34,6 @@
   <script type="text/javascript" src="required/jszip.min.js"></script>
   <script type="text/javascript" src="required/FileSaver.js"></script>
 
-  <script src="http://localhost:35729/livereload.js"></script>
   <script src="tufted.js"></script>
 
   <script>
@@ -175,24 +184,23 @@
       .height(400)
       .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
 
-      console.log(chart.height());
 
     chart.draw(groupedBarData);
 
-    d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
-      transform: function(data) {
+    // d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
+    //   transform: function(data) {
 
-        return data;
-      }
-    });
+    //     return data;
+    //   }
+    // });
 
-    var chart = d3.select('#my-grouped-bar-chart')
-      .append('svg')
-      .chart('MyGroupedBarChart')
-      .colors()
-      .height(400);
+    // var chart = d3.select('#my-grouped-bar-chart')
+    //   .append('svg')
+    //   .chart('MyGroupedBarChart')
+    //   .colors()
+    //   .height(400);
 
-    chart.draw(groupedBarData);
+    // chart.draw(groupedBarData);
 
 
     var lineChartData = [
@@ -261,47 +269,47 @@
 
     chart.draw(stackedBarChartData);
 
-    $(document).ready(function() {
+    // $(document).ready(function() {
 
-      var saveImages = function(callback) {
-        var zip = new JSZip();
-        var img = zip.folder("images");
+    //   var saveImages = function(callback) {
+    //     var zip = new JSZip();
+    //     var img = zip.folder("images");
 
-        $("svg").each(function(index, svg) {
-          var simages = [];
-          simages[index] = new Simg(svg);
+    //     $("svg").each(function(index, svg) {
+    //       var simages = [];
+    //       simages[index] = new Simg(svg);
 
-          simages[index].toImg(function(image) {
-            console.log("bounce!");
-            var filedata = Simg.getBase64Image(image);
-            var filename = "chart-" + index + ".png"
-            img.file(filename, filedata, {base64: true})
-          })
+    //       simages[index].toImg(function(image) {
+    //         console.log("bounce!");
+    //         var filedata = Simg.getBase64Image(image);
+    //         var filename = "chart-" + index + ".png"
+    //         img.file(filename, filedata, {base64: true})
+    //       })
 
-        });
+    //     });
 
-        setTimeout(function(){
-          if(callback) callback(zip);
-        }, 500);
+    //     setTimeout(function(){
+    //       if(callback) callback(zip);
+    //     }, 500);
         
-      }
+    //   }
 
-      var saveZip = function(zip) {
-        var content = zip.generate({type:"blob"});
-        saveAs(content, "example.zip");
-      }
+    //   var saveZip = function(zip) {
+    //     var content = zip.generate({type:"blob"});
+    //     saveAs(content, "example.zip");
+    //   }
 
-      var downloadSvgs = function () {
-        saveImages(function(zip) {
-          saveZip(zip);
-        })
-      }
+    //   var downloadSvgs = function () {
+    //     saveImages(function(zip) {
+    //       saveZip(zip);
+    //     })
+    //   }
 
-      $("#d3-download").on("click", function() {
-        downloadSvgs();
-      });
+    //   $("#d3-download").on("click", function() {
+    //     downloadSvgs();
+    //   });
 
-    });
+    // });
 
   </script>
 </body>

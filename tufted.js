@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var basechart = require('./lib/baseChart');
 var barchart = require('./lib/barChart');
 var groupedbarchart = require('./lib/groupedBarChart');
@@ -23,6 +23,8 @@ exports.linechart = linechart
 exports.stackedbarchart = stackedbarchart
 },{"./lib/barChart":2,"./lib/baseChart":3,"./lib/groupedBarChart":4,"./lib/lineChart":5,"./lib/stackedBarChart":6}],2:[function(require,module,exports){
 d3.chart("BaseChart").extend("BarChart", {
+
+
 
   initialize: function() {
     var chart = this;
@@ -202,7 +204,6 @@ d3.chart("BaseChart").extend("BarChart", {
   // context is chart
 
 d3.chart("BaseChart", {
-
   initialize: function () {
     var chart = this;
 
@@ -210,10 +211,9 @@ d3.chart("BaseChart", {
     chart.layers = {};
     chart.areas.legend = {};
 
-    chart.font = "gill sans";
-    chart.font_size = "12px";
+    chart.font = getComputedStyle(chart.base.node()).getPropertyValue("font-family") || "Arial";
+    chart.font_size = getComputedStyle(chart.base.node()).getPropertyValue("font-size") || "1em";
     chart.font_style = "font: "+ chart.font_size + " '" + chart.font + "';"
-
     
     chart._format = d3.format();
     this._tickValues = [];
@@ -517,7 +517,8 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
         // Append the bars
         return this.append('g')
           .attr('class', 'category');
-      },
+      }
+      ,
  
       events: {
  
@@ -537,21 +538,7 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
             .style("fill", function(d,i) { return chart.colorScale(d.name);; })
             .attr("x", function(d) { return chart.x1Scale(d.name); })
             .attr('y', function(d) { return chart.yScale(0); })
-            .attr("height", 0);
-
-        chart.areas.legend
-          .append("ul")
-          .selectAll("li")
-          .data(chart.x1Scale.domain())
-          .enter()
-            .append("li")
-            .style("color", function(d,i) { return chart.colorScale(d) })
-            .style("font-size", "2.2em")
-            .style("line-height", ".4em")
-              .append("span")
-              .style("color", "black")
-              .style("font-size", ".40em")
-              .text(function(d) { return d });
+            .attr("height", "0");
         },
  
         "merge:transition": function() {
@@ -604,8 +591,7 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
       //   newData.push({ "series": series, "values": values })
       // });
 
-
-
+   
       var buffer = [];
       var x1domain = data[0].values.forEach(function(d) {
         buffer.push(d.name);
@@ -1138,4 +1124,4 @@ d3.chart('BaseChart').extend('StackedBarChart', {
       return data;
   }
 });
-},{}]},{},[1])
+},{}]},{},[1]);
