@@ -387,7 +387,6 @@ d3.chart("BaseChart", {
   },
 
   tooltip: function (d, element, box) {
-    console.log(d);
 
     var position = d3.mouse(element),
         xOffset = 0,
@@ -396,21 +395,22 @@ d3.chart("BaseChart", {
 
     box.attr("transform", "translate(" + (position[0] + xOffset) + ", " + (position[1] + yOffset) + ")")
       .attr("display", "block")
-      // .attr("text-anchor", "start")
       .select("text")
       .text(d);
 
     box.select("rect")
-      .attr("y", -parseFloat(box.select("text").style("height")))
-      .attr("width", parseFloat(box.select("text").style("width"))+11)
-      .attr("height", parseFloat(box.select("text").style("height"))+7);
+      .attr("y", -parseFloat(box.select("text")[0][0].getBBox().height))
+      .attr("width", parseFloat(box.select("text")[0][0].getBBox().width)+11)
+      .attr("height", parseFloat(box.select("text")[0][0].getBBox().height)+7);
 
-    if ((Math.abs(position[0] - this.width() )) < parseFloat(box.select("text").style("width")))  {
+    if ((Math.abs(position[0] - this.width() )) < parseFloat(box.select("text")[0][0].getBBox().width))  {
+      console.log(parseFloat(box.select("text")[0][0].getBBox().width));
+
       box.select("text")
         .attr("text-anchor", "end")
 
       box.select("rect")
-        .attr("x", -5 + -parseFloat(box.select("text").style("width")))
+        .attr("x", -5 + -parseFloat(box.select("text")[0][0].getBBox().width))
 
     } else {
       box.select('text')
@@ -653,8 +653,7 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
       chart.xScale.domain(data.map(function(d) { return d.series; }));
       chart.x1Scale.domain(buffer).rangeRoundBands([0, chart.xScale.rangeBand()]);
       chart.yScale.domain([min, max]);
-      // chart.colorScale
-      //   .domain(chart.x1Scale());
+
       return data;
   }
 });
@@ -1167,7 +1166,6 @@ d3.chart('BaseChart').extend('StackedBarChart', {
               .attr("height", function(d) { return chart.yScale(d.y0) - chart.yScale(d.y1); })
               .style("fill", function(d) { return chart.color(d.name); })
               .on("mousemove", function(d) {
-                console.log(d);
                 chart.tooltip((d.y1-d.y0), chart.layers.bars[0][0], chart.areas.tooltip);
               })
               .on("mouseout", function(d) {
