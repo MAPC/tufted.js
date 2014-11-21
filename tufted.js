@@ -24,8 +24,6 @@ exports.stackedbarchart = stackedbarchart
 },{"./lib/barChart":2,"./lib/baseChart":3,"./lib/groupedBarChart":4,"./lib/lineChart":5,"./lib/stackedBarChart":6}],2:[function(require,module,exports){
 d3.chart("BaseChart").extend("BarChart", {
 
-
-
   initialize: function() {
     var chart = this;
 
@@ -49,6 +47,22 @@ d3.chart("BaseChart").extend("BarChart", {
 
     chart.areas.legend = chart.base.select('g').append('g')
       .attr("transform", "translate(0, -40)");
+
+    chart.areas.tooltip = chart.base.select("g")
+      .append("g")      
+      .attr("id", "tooltip")
+      .attr("display", "none")
+      .attr("position", "absolute")
+      .attr("pointer-events","none");
+
+    chart.areas.tooltip
+      .append("rect")
+      .attr("fill", "white")
+      .attr("rx", 5)
+      .attr("ry", 5);
+
+    chart.areas.tooltip
+      .append("text");
 
     chart.layer('bars', chart.layers.bars, {
 
@@ -147,36 +161,31 @@ d3.chart("BaseChart").extend("BarChart", {
           var chart = this.chart();
 
           this.attr('x', function(d) { return chart.xScale(d.name); })
-            // .attr("title", function(d) { return d.name })
             .attr("class", "bar")
             .attr("data-content", function(d) { return d.value })
             .attr("data-legend", function(d) { return d.name })
             .attr('y', function(d) { return chart.yScale(0); })
             .attr('width', chart.xScale.rangeBand())
             .attr('height', 0)
-            .style('fill', function(d) {return chart.colorScale(d.name);});
+            .style('fill', function(d) {return chart.colorScale(d.name);})
+            .on("mousemove", function(d) {
+              chart.tooltip(d.value, this, chart.areas.tooltip);
+            })
+            .on("mouseout", function(d) {
+              chart.areas.tooltip.attr("display", "none");
+            });
         },
 
-        'enter:transition': function() {
+        'enter:transition': function() { 
           var chart = this.chart();
 
           this.duration(chart.duration)
             .attr('y', function(d) { return chart.yScale(d3.max([0, d.value])); })
             .attr('height', function(d) { return Math.abs(chart.yScale(d.value) - chart.yScale(0)); });            
 
-          $(document).ready(function () {
-              $("svg rect").popover({
-                  'container': 'body',
-                  'placement': 'right',
-                  'trigger': 'hover',
-                  'html': true
-              });
-          });
         }
       }
     });
-
-
 
   },
   // set/get the color to use for the circles as they are
@@ -210,6 +219,7 @@ d3.chart("BaseChart", {
     chart.areas = {};
     chart.layers = {};
     chart.areas.legend = {};
+    chart.areas.tooltip =  {};
 
     chart.font = getComputedStyle(chart.base.node()).getPropertyValue("font-family") || "Arial";
     chart.font_size = getComputedStyle(chart.base.node()).getPropertyValue("font-size") || "1em";
@@ -251,6 +261,8 @@ d3.chart("BaseChart", {
 
     this.base.append('g')
       .attr('transform', 'translate(' + this._margin.left + ',' + this._margin.top + ')');
+
+
 
   },
 
@@ -374,31 +386,39 @@ d3.chart("BaseChart", {
     return this;
   },
 
-  firstMatch: function (target, toMatch) {
-    "use strict";
+  tooltip: function (d, element, box) {
+    console.log(d);
 
-    var found, targetMap, i, j, cur;
+    var position = d3.mouse(element),
+        xOffset = 0,
+        yOffset = -12;
 
-    found = false;
-    targetMap = {};
 
-    // Put all values in the `target` array into a map, where
-    //  the keys are the values from the array
-    for (i = 0, j = target.length; i < j; i++) {
-        cur = target[i];
-        targetMap[cur] = true;
+    box.attr("transform", "translate(" + (position[0] + xOffset) + ", " + (position[1] + yOffset) + ")")
+      .attr("display", "block")
+      // .attr("text-anchor", "start")
+      .select("text")
+      .text(d);
+
+    box.select("rect")
+      .attr("y", -parseFloat(box.select("text").style("height")))
+      .attr("width", parseFloat(box.select("text").style("width"))+11)
+      .attr("height", parseFloat(box.select("text").style("height"))+7);
+
+    if ((Math.abs(position[0] - chart.width() )) < parseFloat(box.select("text").style("width")))  {
+      box.select("text")
+        .attr("text-anchor", "end")
+
+      box.select("rect")
+        .attr("x", -5 + -parseFloat(box.select("text").style("width")))
+
+    } else {
+      box.select('text')
+        .attr("text-anchor", "start")
+
+      box.select("rect")
+        .attr("x", -5)
     }
-
-    // Loop over all items in the `toMatch` array and see if any of
-    //  their values are in the map from before
-    for (i = 0, j = toMatch.length; !found && (i < j); i++) {
-        cur = toMatch[i];
-        found = !!targetMap[cur];
-        // If found, `targetMap[cur]` will return true, otherwise it
-        //  will return `undefined`...that's what the `!!` is for
-    }
-
-    return found;
   },
 
   wrap: function(text, width) {
@@ -462,6 +482,21 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
     chart.areas.legend = chart.base.select('g').append('g')
       .attr("transform", "translate(0, -40)");
 
+    chart.areas.tooltip = chart.base.select("g")
+      .append("g")      
+      .attr("id", "tooltip")
+      .attr("display", "none")
+      .attr("position", "absolute")
+      .attr("pointer-events","none");
+
+    chart.areas.tooltip
+      .append("rect")
+      .attr("fill", "white")
+      .attr("rx", 5)
+      .attr("ry", 5);
+
+    chart.areas.tooltip
+      .append("text");
     chart.layer('bars', chart.layers.bars, {
       dataBind: function(data) {
         var chart = this.chart();
@@ -551,7 +586,7 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
  
         "enter": function() {
           var chart = this.chart();
- 
+
           this.attr("transform", function(d, i) { return "translate(" + chart.xScale(d.series) + ",0)"; })
             .selectAll(".bar")
             .data(function(d) {return d.values;})
@@ -565,7 +600,13 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
             .style("fill", function(d,i) { return chart.colorScale(d.name);; })
             .attr("x", function(d) { return chart.x1Scale(d.name); })
             .attr('y', function(d) { return chart.yScale(0); })
-            .attr("height", "0");
+            .attr("height", "0")
+            .on("mousemove", function(d) {
+              chart.tooltip(d.value, chart.layers.bars[0][0], chart.areas.tooltip);
+            })
+            .on("mouseout", function(d) {
+              chart.areas.tooltip.attr("display", "none");
+            });
         },
  
         "merge:transition": function() {
@@ -577,46 +618,15 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
               .attr("width", chart.x1Scale.rangeBand())
             .attr('y', function(d) { return chart.yScale(d3.max([0, d.value])); })
             .attr('height', function(d) { return Math.abs(chart.yScale(d.value) - chart.yScale(0)); });
-
-          $(document).ready(function () {
-            $("svg rect").popover({
-                'container': 'body',
-                'placement': 'right',
-                'trigger': 'hover',
-                'html': true
-            });
-          });
         }
       },
     });
 
     },
 
-
     transform: function(data) {
       var chart = this;
 
-      // data standards? :(
-      // var series = [];
-      // data.forEach(function(d){
-      //   series.push(d.series);
-      // });
-      // var keys = d3.set(series).values();
-
-      // var newData = [];
-
-      // keys.forEach(function(series) {
-      //   var values = [];
-      //   var filter = data.filter(function(element) { 
-      //     return element.series == series 
-      //   });
-
-      //   filter.forEach(function(d){
-      //     values.push({ "name": d.name, "value": d.value })
-      //   });
-
-      //   newData.push({ "series": series, "values": values })
-      // });
 
    
       var buffer = [];
@@ -692,6 +702,22 @@ d3.chart("BaseChart").extend("LineChart", {
 
     chart.areas.legend = chart.base.select('g').append('g')
       .attr("transform", "translate(0, -40)");
+
+    chart.areas.tooltip = chart.base.select("g")
+      .append("g")      
+      .attr("id", "tooltip")
+      .attr("display", "none")
+      .attr("position", "absolute")
+      .attr("pointer-events","none");
+
+    chart.areas.tooltip
+      .append("rect")
+      .attr("fill", "white")
+      .attr("rx", 5)
+      .attr("ry", 5);
+
+    chart.areas.tooltip
+      .append("text");
 
     // create a layer of circles that will go into
     // a new group element on the base of the chart
@@ -813,6 +839,9 @@ d3.chart("BaseChart").extend("LineChart", {
             })
             .on("mousemove", function(d,i) {
 
+              chart.tooltip(d.series, this, chart.areas.tooltip); 
+
+
               d3.select(this)
                 .style("stroke", function (d) {
                   if (d.flag) {
@@ -827,6 +856,8 @@ d3.chart("BaseChart").extend("LineChart", {
 
             })
             .on("mouseout", function(d,i) {
+
+              chart.areas.tooltip.attr("display", "none");
 
               d3.select(this)
                 .style("stroke", function (d) {
@@ -881,36 +912,22 @@ d3.chart("BaseChart").extend("LineChart", {
             .attr("data-content", function(d) { return d.value })
             .attr("fill", "black")
             .on("mouseover", function(d, i) {
+
+              chart.tooltip(d.value, this, chart.areas.tooltip); 
+
               d3.select(this)
                 .attr("r", "6"); 
             })
             .on("mouseout", function(d) {
+
+              chart.areas.tooltip.attr("display", "none");
+
               d3.select(this)
                 .transition()
                 .duration(150)
                 .attr("r", "3")
             });
 
-        },
-
-        'enter:transition': function () {
-          $(document).ready( function () {
-            $("svg circle").popover({
-                'container': 'body',
-                'placement': 'right',
-                'trigger': 'hover',
-                'html': true
-            });
-          });
-
-          $(document).ready( function () {
-            $("svg path").popover({
-                'container': 'body',
-                'placement': 'top',
-                'trigger': 'hover',
-                'html': true
-            });
-          });        
         }
       }
     });
@@ -1034,6 +1051,22 @@ d3.chart('BaseChart').extend('StackedBarChart', {
     chart.areas.legend = chart.base.select('g').append('g')
       .attr("transform", "translate(0, -40)");
 
+    chart.areas.tooltip = chart.base.select("g")
+      .append("g")      
+      .attr("id", "tooltip")
+      .attr("display", "none")
+      .attr("position", "absolute")
+      .attr("pointer-events","none");
+
+    chart.areas.tooltip
+      .append("rect")
+      .attr("fill", "white")
+      .attr("rx", 5)
+      .attr("ry", 5);
+
+    chart.areas.tooltip
+      .append("text");
+
     chart.layer('bars', chart.layers.bars, {
       dataBind: function(data) {
         var chart = this.chart();
@@ -1132,7 +1165,14 @@ d3.chart('BaseChart').extend('StackedBarChart', {
               .attr("width", chart.xScale.rangeBand())
               .attr("y", function(d) { return chart.yScale(d.y1); })
               .attr("height", function(d) { return chart.yScale(d.y0) - chart.yScale(d.y1); })
-              .style("fill", function(d) { return chart.color(d.name); });
+              .style("fill", function(d) { return chart.color(d.name); })
+              .on("mousemove", function(d) {
+                console.log(d);
+                chart.tooltip((d.y1-d.y0), chart.layers.bars[0][0], chart.areas.tooltip);
+              })
+              .on("mouseout", function(d) {
+                chart.areas.tooltip.attr("display", "none");
+              });
 
               
         }
