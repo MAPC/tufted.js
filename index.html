@@ -9,7 +9,7 @@
   <style>
     body {
       overflow-x: hidden;
-      font-family: 'Times New Roman';
+      font-family: 'Arial';
       font-weight: 300;
       font-size: 16px;
       line-height: 24px;
@@ -23,6 +23,7 @@
   <div id="grouped-bar-chart"></div>
   <div id="my-grouped-bar-chart"></div>
   <div id="line-chart"></div>
+  <div id="line-chart-callouts"></div>
   <div id="stacked-bar-chart"></div>
   <script src="required/simg.js"></script>
   <script src="required/d3.js"></script>
@@ -251,20 +252,74 @@
       }
     ];
 
-    
-
     var chart = d3.select('#line-chart')
+      .append('svg')
+      .chart('LineChart')
+      .colors(d3.scale.category10())
+      .callouts(["Kiwi","Grapes"])
+      .height(400);
+
+    chart.draw(lineChartData);
+
+    var moreLineChartData = [
+      { series: "Red", values:
+        [{year: "A", value: 4},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Orange", values:
+        [{year: "A", value: 36},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Green", values:
+        [{year: "A", value: 19},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Blue", values:
+        [{year: "A", value: 2},
+         {year: "B", value: 23},
+         {year: "C", value: 53},
+         {year: "D", value: 14},
+         {year: "E", value: 34},
+         {year: "F", value: 6},
+         ]
+      },
+      { series: "Yellow", values:
+        [{year: "A", value: 6},
+         {year: "B", value: 13},
+         {year: "C", value: 12},
+         {year: "D", value: 3},
+         {year: "E", value: 9},
+         {year: "F", value: 11},
+         ]
+      }
+    ];
+
+    var chart = d3.select('#line-chart-callouts')
       .append('svg')
       .chart('LineChart')
       .colors(d3.scale.category10())
       .height(400);
 
-    chart.draw(lineChartData);
+    chart.draw(moreLineChartData);
 
     var chart = d3.select('#stacked-bar-chart')
       .append('svg')
       .chart('StackedBarChart')
-      // .download("#d3-download")
       .height(400);
 
     chart.draw(stackedBarChartData);

@@ -374,6 +374,33 @@ d3.chart("BaseChart", {
     return this;
   },
 
+  firstMatch: function (target, toMatch) {
+    "use strict";
+
+    var found, targetMap, i, j, cur;
+
+    found = false;
+    targetMap = {};
+
+    // Put all values in the `target` array into a map, where
+    //  the keys are the values from the array
+    for (i = 0, j = target.length; i < j; i++) {
+        cur = target[i];
+        targetMap[cur] = true;
+    }
+
+    // Loop over all items in the `toMatch` array and see if any of
+    //  their values are in the map from before
+    for (i = 0, j = toMatch.length; !found && (i < j); i++) {
+        cur = toMatch[i];
+        found = !!targetMap[cur];
+        // If found, `targetMap[cur]` will return true, otherwise it
+        //  will return `undefined`...that's what the `!!` is for
+    }
+
+    return found;
+  },
+
   wrap: function(text, width) {
     text.each(function() {
       var text = d3.select(this),
@@ -709,6 +736,8 @@ d3.chart("BaseChart").extend("LineChart", {
               .style("text-anchor", "middle")
               .call(chart.wrap, 50)
 
+        console.log(data);
+
         chart.areas.legend =
           chart.areas.legend
           .selectAll(".legend")
@@ -718,6 +747,7 @@ d3.chart("BaseChart").extend("LineChart", {
 
         chart.areas.legend
             .append("circle")
+            .filter(function(d) { return d.flag == true; })
               .attr("r", 5)
               .attr("cx", function(d,i) {
                 return 1 + (i * 100);
@@ -729,6 +759,7 @@ d3.chart("BaseChart").extend("LineChart", {
 
         chart.areas.legend
             .append("text")
+            .filter(function(d) { return d.flag == true; })
             .attr("transform", function (d,i) {
               return "translate(" + (10 + (i*100)) + ",0)";
             })
@@ -760,7 +791,8 @@ d3.chart("BaseChart").extend("LineChart", {
           var chart = this.chart();
           this.attr('d', function(d) { return chart.renderLine(d.values); })
             .attr("class", function(d,i) {
-              if (chart.matchWithCallouts(d.series)) {
+
+              if (d.flag) {
                 var str = d.series.replace(/\s/g, '');
                 return "line callout callout-" + str;
               } else {
@@ -771,8 +803,9 @@ d3.chart("BaseChart").extend("LineChart", {
               return d.series;
             })
             .style("fill", "none")
+            .style("stroke-width", "3")
             .style("stroke", function(d,i) {
-              if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
+              if (d.flag) {
                 return chart.colorScale(d.series); 
               } else {
                 return "Lightgray"
@@ -782,7 +815,7 @@ d3.chart("BaseChart").extend("LineChart", {
 
               d3.select(this)
                 .style("stroke", function (d) {
-                  if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
+                  if (d.flag) {
                     return chart.colorScale(d.series); 
                   } else {
                     return "darkgray"
@@ -797,7 +830,7 @@ d3.chart("BaseChart").extend("LineChart", {
 
               d3.select(this)
                 .style("stroke", function (d) {
-                  if (chart.matchWithCallouts(d.series) || chart.callouts() == false) {
+                  if (d.flag) {
                     return chart.colorScale(d.series); 
                   } else {
                     return "Lightgray"
@@ -815,14 +848,6 @@ d3.chart("BaseChart").extend("LineChart", {
         'enter:transition': function() {
           var chart = this.chart();
 
-          // $(document).ready(function () {
-          //     $("svg circle").popover({
-          //         'container': 'body',
-          //         'placement': 'right',
-          //         'trigger': 'hover',
-          //         'html': true
-          //     });
-          // });
         }
       }
     });
@@ -913,8 +938,21 @@ d3.chart("BaseChart").extend("LineChart", {
   transform: function(data) {
     var chart = this;
     // update the scales
+    var _data = data;
 
-    data.forEach(function(d) {
+    console.log("_data", _data); //why is this have new properties before the properties are set?
+
+    _data.forEach(function(d,i) {
+      if(chart.callouts()[0]!==undefined) {
+        if(chart.matchWithCallouts(d.series)) {
+          _data[i]["flag"] = true;
+        } else {
+          _data[i]["flag"] = false;
+        }
+      } else {
+        _data[i]["flag"] = true;
+      }
+
       d.values.forEach(function(d) {
         d.year = d.year.toString();
       });
@@ -922,40 +960,39 @@ d3.chart("BaseChart").extend("LineChart", {
 
 
     var buffer = [];
-    data[0].values.forEach(function(d) {
+    _data[0].values.forEach(function(d) {
       buffer.push(d.year);
     });
 
-    var max = d3.max(data, function(d) { 
+    var max = d3.max(_data, function(d) { 
       return d3.max(d.values, function(d) { 
         return d.value; 
       }); 
     });
 
-    var min = d3.min(data, function(d) {
+    var min = d3.min(_data, function(d) {
       return d3.min(d.values, function(d) {
         return d.value;
       })
     });
 
+
     chart.xScale.domain(buffer);
     chart.yScale.domain([min,max]);
 
-    if (chart._callouts) {
-
-      chart._callouts.forEach(function(d) {
-        var pluck = [];
-        pluck = data.filter(function(f) { 
-          return f.series == d; 
-        });
-        data = data.filter(function(f) {
-          return f.series !== d;
-        });
-        data.push(pluck[0]);
+    chart._callouts.forEach(function(d) {
+      var pluck = [];
+      pluck = _data.filter(function(f) { 
+        return f.series == d; 
       });
-    }
+      _data = _data.filter(function(f) {
+        return f.series !== d;
+      });
+      _data.push(pluck[0]);
+    });
 
-    return data;
+
+    return _data;
   }
 });
 },{}],6:[function(require,module,exports){
