@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Tufted.js by MAPC</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Tufted.js</h1>
+        <p>Terse D3 charts</p>
+
+        <p class="view"><a href="https://github.com/MAPC/tufted.js">View the Project on GitHub <small>MAPC/tufted.js</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/MAPC/tufted.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/MAPC/tufted.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/MAPC/tufted.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="tuftedjs" class="anchor" href="#tuftedjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>tufted.js</h1>
+
+<p>Tufted.js is data visualization for the modern web. Designed for urban planners, policy professionals, and data geeks with some coding experience, this tool makes it easy to create mobile-friendly, style-agnostic interactive charts and maps. Additionally, because it's extensible and reusable (using Bocoup's d3.chart: <a href="http://bocoup.com/weblog/reusability-with-d3/">http://bocoup.com/weblog/reusability-with-d3/</a>), it makes it easier for developers to optimize the library for particular projects while creating a bridge across an organization's web products. Ultimately, we hope Tufted.js fills a/the missing link between the data analyst and the developer. </p>
+
+<p>Dependencies:
+D3.js
+D3chart.js </p>
+
+<p>Development:
+browserify</p>
+
+<p>Optional:
+beefy</p>
+
+<p>Build:
+beefy build.js:tufted.js --live</p>
+
+<p>Examples:
+Bar Chart:</p>
+
+<pre><code>var testDataTwoDimension = [
+      {name: 'A', value: 4},
+      {name: 'B', value: -36},
+      {name: 'C', value: 19},
+      {name: 'D', value: -2},
+      {name: 'E', value: 6},
+    ];
+
+var chart = d3.select('#chart')
+      .append("svg")
+      .chart("BarChart")
+      .width(400)
+      .height(400);
+
+chart.draw(testDataTwoDimension); 
+</code></pre>
+
+<p>Grouped Bar Chart:</p>
+
+<pre><code>var groupedBarData = [
+    { series: "1", values:
+      [{name: 'A', value: 4},
+       {name: 'B', value: 36}]
+    },
+    { series: "2", values:
+      [{name: 'A', value: 36},
+       {name: 'B', value: 36}]
+    },
+    { series: "3", values:
+      [{name: 'A', value: 19},
+       {name: 'B', value: 36}]
+    },
+    { series: "4", values:
+      [{name: 'A', value: 2},
+       {name: 'B', value: 36}]
+    },
+    { series: "5", values:
+      [{name: 'A', value: 6},
+       {name: 'B', value: 6}]
+    }
+    ];
+
+var chart = d3.select('#grouped-bar-chart')
+      .append("svg")
+      .chart("GroupedBarChart")
+      .width(400)
+      .height(400);
+
+chart.draw(groupedBarData);
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/MAPC">MAPC</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
