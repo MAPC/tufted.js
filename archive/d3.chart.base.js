@@ -20,7 +20,7 @@
     } else {
       return style[attr];
     }
-  }
+  }  
 
   // converts pixel values
   var _toNumFromPx = (function() {

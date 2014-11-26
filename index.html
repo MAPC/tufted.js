@@ -40,289 +40,295 @@
   <script>
     // development: beefy build.js:tufted.js --live
 
-    var stackedBarChartData = [
+    // var stackedBarChartData = [
 
-      {
-        "series":"LA",
-        "Under 5 Years":310716,
-        "5 to 13 Years":542341,
-        "14 to 17 Years":254916,
-        "18 to 24 Years":471275,
-        "25 to 44 Years":1162463,
-        "45 to 64 Years":1128771,
-        "65 Years and Over":540314
-      },
-      {
-        "series":"ME",
-        "Under 5 Years":71459,
-        "5 to 13 Years":133656,
-        "14 to 17 Years":69752,
-        "18 to 24 Years":112682,
-        "25 to 44 Years":331809,
-        "45 to 64 Years":397911,
-        "65 Years and Over":199187
-      },
-      {
-        "series":"MD",
-        "Under 5 Years":371787,
-        "5 to 13 Years":651923,
-        "14 to 17 Years":316873,
-        "18 to 24 Years":543470,
-        "25 to 44 Years":1556225,
-        "45 to 64 Years":1513754,
-        "65 Years and Over":679565
-      },
-      {
-        "series":"MA",
-        "Under 5 Years":383568,
-        "5 to 13 Years":701752,
-        "14 to 17 Years":341713,
-        "18 to 24 Years":665879,
-        "25 to 44 Years":1782449,
-        "45 to 64 Years":1751508,
-        "65 Years and Over":871098
-      },
-      {
-        "series":"MI",
-        "Under 5 Years":625526,
-        "5 to 13 Years":1179503,
-        "14 to 17 Years":585169,
-        "18 to 24 Years":974480,
-        "25 to 44 Years":2628322,
-        "45 to 64 Years":2706100,
-        "65 Years and Over":1304322
-      },
-      {
-        "series":"MN",
-        "Under 5 Years":358471,
-        "5 to 13 Years":606802,
-        "14 to 17 Years":289371,
-        "18 to 24 Years":507289,
-        "25 to 44 Years":1416063,
-        "45 to 64 Years":1391878,
-        "65 Years and Over":650519
-      }
-    ];
+    //   {
+    //     "series":"LA",
+    //     "Under 5 Years":310716,
+    //     "5 to 13 Years":542341,
+    //     "14 to 17 Years":254916,
+    //     "18 to 24 Years":471275,
+    //     "25 to 44 Years":1162463,
+    //     "45 to 64 Years":1128771,
+    //     "65 Years and Over":540314
+    //   },
+    //   {
+    //     "series":"ME",
+    //     "Under 5 Years":71459,
+    //     "5 to 13 Years":133656,
+    //     "14 to 17 Years":69752,
+    //     "18 to 24 Years":112682,
+    //     "25 to 44 Years":331809,
+    //     "45 to 64 Years":397911,
+    //     "65 Years and Over":199187
+    //   },
+    //   {
+    //     "series":"MD",
+    //     "Under 5 Years":371787,
+    //     "5 to 13 Years":651923,
+    //     "14 to 17 Years":316873,
+    //     "18 to 24 Years":543470,
+    //     "25 to 44 Years":1556225,
+    //     "45 to 64 Years":1513754,
+    //     "65 Years and Over":679565
+    //   },
+    //   {
+    //     "series":"MA",
+    //     "Under 5 Years":383568,
+    //     "5 to 13 Years":701752,
+    //     "14 to 17 Years":341713,
+    //     "18 to 24 Years":665879,
+    //     "25 to 44 Years":1782449,
+    //     "45 to 64 Years":1751508,
+    //     "65 Years and Over":871098
+    //   },
+    //   {
+    //     "series":"MI",
+    //     "Under 5 Years":625526,
+    //     "5 to 13 Years":1179503,
+    //     "14 to 17 Years":585169,
+    //     "18 to 24 Years":974480,
+    //     "25 to 44 Years":2628322,
+    //     "45 to 64 Years":2706100,
+    //     "65 Years and Over":1304322
+    //   },
+    //   {
+    //     "series":"MN",
+    //     "Under 5 Years":358471,
+    //     "5 to 13 Years":606802,
+    //     "14 to 17 Years":289371,
+    //     "18 to 24 Years":507289,
+    //     "25 to 44 Years":1416063,
+    //     "45 to 64 Years":1391878,
+    //     "65 Years and Over":650519
+    //   }
+    // ];
 
 
 
-    var testDataTwoDimension = [
-      {name: 'Apples with no worms', value: 4},
-      {name: 'Berries that are not chilled', value: 36},
-      {name: 'Carrots with shavings', value: -19},
-      {name: 'Dandelions that are inedible', value: -2},
-      {name: 'Eels named Erin', value: 6},
-    ];
+    // var testDataTwoDimension = [
+    //   {name: 'Apples with no worms', value: 4},
+    //   {name: 'Berries that are not chilled', value: 36},
+    //   {name: 'Carrots with shavings', value: -19},
+    //   {name: 'Dandelions that are inedible', value: -2},
+    //   {name: 'Eels named Erin', value: 6},
+    // ];
+
+
+
+
+
+    // var testDataTwoDimension = [
+    //   {name: 'A', value: 4},
+    //   {name: 'B', value: -36},
+    //   {name: 'C', value: 19},
+    //   {name: 'D', value: -2},
+    //   {name: 'E', value: 6},
+    // ];
+
+    // var groupedBarData = [
+    //   { series: "Trees", values:
+    //     [{name: 'Apples Apples Apples Apples Apples', value: 4},
+    //      {name: 'Oranges Oranges Oranges Oranges Oranges', value: -36},
+    //      {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+    //      {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
+    //   },
+    //   { series: "Forests", values:
+    //     [{name: 'Apples Apples Apples Apples Apples', value: 36},
+    //      {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
+    //      {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+    //      {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
+    //   },
+    //   { series: "Grapes", values:
+    //     [{name: 'Apples Apples Apples Apples Apples', value: 19},
+    //      {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
+    //      {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+    //      {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
+    //   },
+    //   { series: "Eggs", values:
+    //     [{name: 'Apples Apples Apples Apples Apples', value: 2},
+    //      {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
+    //      {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+    //      {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
+    //   },
+    //   { series: "Reefs", values:
+    //     [{name: 'Apples Apples Apples Apples Apples', value: 6},
+    //      {name: 'Oranges Oranges Oranges Oranges Oranges', value: 6},
+    //      {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
+    //      {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
+    //   }
+    // ];
+
+    // var averagesData = [
+    //   {
+    //     name: "Regional Average Debt",
+    //     value: 15241.87
+    //   },
+    //   {
+    //     name: "National Average Debt",
+    //     value: 14731.54
+    //   }
+    // ];
+
+    // var chart = d3.select('#grouped-bar-chart')
+    //   .append('svg')
+    //   .chart('GroupedBarChart')
+    //   .yAxisLabel("Percent")
+    //   .height(400)
+    //   .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+
+
+    // chart.draw(groupedBarData);
+
+    // // d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
+    // //   transform: function(data) {
+
+    // //     return data;
+    // //   }
+    // // });
+
+    // // var chart = d3.select('#my-grouped-bar-chart')
+    // //   .append('svg')
+    // //   .chart('MyGroupedBarChart')
+    // //   .colors()
+    // //   .height(400);
+
+    // // chart.draw(groupedBarData);
+
+
+    // var lineChartData = [
+    //   { series: "Oranges", values:
+    //     [{year: "A", value: 4},
+    //      {year: "B", value: 36},
+    //      {year: "C", value: 36},
+    //      {year: "D", value: 36},
+    //      {year: "E", value: 36},
+    //      {year: "F", value: 36},
+    //      ]
+    //   },
+    //   { series: "Apples", values:
+    //     [{year: "A", value: 36},
+    //      {year: "B", value: 36},
+    //      {year: "C", value: 36},
+    //      {year: "D", value: 36},
+    //      {year: "E", value: 36},
+    //      {year: "F", value: 36},
+    //      ]
+    //   },
+    //   { series: "Bananas", values:
+    //     [{year: "A", value: 19},
+    //      {year: "B", value: 36},
+    //      {year: "C", value: 36},
+    //      {year: "D", value: 36},
+    //      {year: "E", value: 36},
+    //      {year: "F", value: 36},
+    //      ]
+    //   },
+    //   { series: "Grapes", values:
+    //     [{year: "A", value: 2},
+    //      {year: "B", value: 23},
+    //      {year: "C", value: 53},
+    //      {year: "D", value: 14},
+    //      {year: "E", value: 34},
+    //      {year: "F", value: 6},
+    //      ]
+    //   },
+    //   { series: "Kiwi", values:
+    //     [{year: "A", value: 6},
+    //      {year: "B", value: 13},
+    //      {year: "C", value: 12},
+    //      {year: "D", value: 3},
+    //      {year: "E", value: 9},
+    //      {year: "F", value: 11},
+    //      ]
+    //   }
+    // ];
+
+    // var chart = d3.select('#line-chart')
+    //   .append('svg')
+    //   .chart('LineChart')
+    //   .colors(d3.scale.category10())
+    //   .callouts(["Kiwi","Grapes"])
+    //   .height(400);
+
+    // chart.draw(lineChartData);
+
+    // var moreLineChartData = [
+    //   { series: "Red", values:
+    //     [{year: "A", value: 4},
+    //      {year: "B", value: 36},
+    //      {year: "C", value: 36},
+    //      {year: "D", value: 36},
+    //      {year: "E", value: 36},
+    //      {year: "F", value: 36},
+    //      ]
+    //   },
+    //   { series: "Orange", values:
+    //     [{year: "A", value: 36},
+    //      {year: "B", value: 36},
+    //      {year: "C", value: 36},
+    //      {year: "D", value: 36},
+    //      {year: "E", value: 36},
+    //      {year: "F", value: 36},
+    //      ]
+    //   },
+    //   { series: "Green", values:
+    //     [{year: "A", value: 19},
+    //      {year: "B", value: 36},
+    //      {year: "C", value: 36},
+    //      {year: "D", value: 36},
+    //      {year: "E", value: 36},
+    //      {year: "F", value: 36},
+    //      ]
+    //   },
+    //   { series: "Blue", values:
+    //     [{year: "A", value: 2},
+    //      {year: "B", value: 23},
+    //      {year: "C", value: 53},
+    //      {year: "D", value: 14},
+    //      {year: "E", value: 34},
+    //      {year: "F", value: 6},
+    //      ]
+    //   },
+    //   { series: "Yellow", values:
+    //     [{year: "A", value: 6},
+    //      {year: "B", value: 13},
+    //      {year: "C", value: 12},
+    //      {year: "D", value: 3},
+    //      {year: "E", value: 9},
+    //      {year: "F", value: 11},
+    //      ]
+    //   }
+    // ];
+
+    // var chart = d3.select('#line-chart-callouts')
+    //   .append('svg')
+    //   .chart('LineChart')
+    //   .colors(d3.scale.category10())
+    //   .height(400);
+
+    // chart.draw(moreLineChartData);
+
+    // var chart = d3.select('#stacked-bar-chart')
+    //   .append('svg')
+    //   .chart('StackedBarChart')
+    //   .height(400);
+
+    // chart.draw(stackedBarChartData); 
+
+    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type%20LIMIT%205;";
 
     var chart = d3.select('#bar-chart')
       .append("svg")
       .chart("BarChart")
-      .format("$11,f")
-      .tickValues(["Grapes", "Oranges", "Apples", "Bananas", "Kiwi"]) 
-      .height(400)
-      // .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2', '#6DBD45']);
-
-    chart.draw(testDataTwoDimension);
-
-
-
-    var testDataTwoDimension = [
-      {name: 'A', value: 4},
-      {name: 'B', value: -36},
-      {name: 'C', value: 19},
-      {name: 'D', value: -2},
-      {name: 'E', value: 6},
-    ];
-
-    var groupedBarData = [
-      { series: "Trees", values:
-        [{name: 'Apples Apples Apples Apples Apples', value: 4},
-         {name: 'Oranges Oranges Oranges Oranges Oranges', value: -36},
-         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
-         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
-      },
-      { series: "Forests", values:
-        [{name: 'Apples Apples Apples Apples Apples', value: 36},
-         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
-         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
-         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
-      },
-      { series: "Grapes", values:
-        [{name: 'Apples Apples Apples Apples Apples', value: 19},
-         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
-         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
-         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
-      },
-      { series: "Eggs", values:
-        [{name: 'Apples Apples Apples Apples Apples', value: 2},
-         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 36},
-         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
-         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
-      },
-      { series: "Reefs", values:
-        [{name: 'Apples Apples Apples Apples Apples', value: 6},
-         {name: 'Oranges Oranges Oranges Oranges Oranges', value: 6},
-         {name: 'Grapes Grapes Grapes Grapes Grapes', value: 32},
-         {name: 'Peaches Peaches Peaches Peaches Peaches', value: 14}]
-      }
-    ];
-
-    var averagesData = [
-      {
-        name: "Regional Average Debt",
-        value: 15241.87
-      },
-      {
-        name: "National Average Debt",
-        value: 14731.54
-      }
-    ];
-
-    var chart = d3.select('#grouped-bar-chart')
-      .append('svg')
-      .chart('GroupedBarChart')
-      .yAxisLabel("Percent")
-      .height(400)
-      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
-
-
-    chart.draw(groupedBarData);
-
-    // d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
-    //   transform: function(data) {
-
-    //     return data;
-    //   }
-    // });
-
-    // var chart = d3.select('#my-grouped-bar-chart')
-    //   .append('svg')
-    //   .chart('MyGroupedBarChart')
-    //   .colors()
-    //   .height(400);
-
-    // chart.draw(groupedBarData);
-
-
-    var lineChartData = [
-      { series: "Oranges", values:
-        [{year: "A", value: 4},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Apples", values:
-        [{year: "A", value: 36},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Bananas", values:
-        [{year: "A", value: 19},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Grapes", values:
-        [{year: "A", value: 2},
-         {year: "B", value: 23},
-         {year: "C", value: 53},
-         {year: "D", value: 14},
-         {year: "E", value: 34},
-         {year: "F", value: 6},
-         ]
-      },
-      { series: "Kiwi", values:
-        [{year: "A", value: 6},
-         {year: "B", value: 13},
-         {year: "C", value: 12},
-         {year: "D", value: 3},
-         {year: "E", value: 9},
-         {year: "F", value: 11},
-         ]
-      }
-    ];
-
-    var chart = d3.select('#line-chart')
-      .append('svg')
-      .chart('LineChart')
-      .colors(d3.scale.category10())
-      .callouts(["Kiwi","Grapes"])
       .height(400);
 
-    chart.draw(lineChartData);
+    d3.json(url, function(d) {
 
-    var moreLineChartData = [
-      { series: "Red", values:
-        [{year: "A", value: 4},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Orange", values:
-        [{year: "A", value: 36},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Green", values:
-        [{year: "A", value: 19},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Blue", values:
-        [{year: "A", value: 2},
-         {year: "B", value: 23},
-         {year: "C", value: 53},
-         {year: "D", value: 14},
-         {year: "E", value: 34},
-         {year: "F", value: 6},
-         ]
-      },
-      { series: "Yellow", values:
-        [{year: "A", value: 6},
-         {year: "B", value: 13},
-         {year: "C", value: 12},
-         {year: "D", value: 3},
-         {year: "E", value: 9},
-         {year: "F", value: 11},
-         ]
-      }
-    ];
 
-    var chart = d3.select('#line-chart-callouts')
-      .append('svg')
-      .chart('LineChart')
-      .colors(d3.scale.category10())
-      .height(400);
 
-    chart.draw(moreLineChartData);
-
-    var chart = d3.select('#stacked-bar-chart')
-      .append('svg')
-      .chart('StackedBarChart')
-      .height(400);
-
-    chart.draw(stackedBarChartData);
+      chart.draw(d.rows);
+    });
 
     // $(document).ready(function() {
 
