@@ -67,3 +67,9 @@ var chart = d3.select('#grouped-bar-chart')
 
 chart.draw(groupedBarData);
 ```
+
+## License
+
+Copyright (c) 2014 Twitter and other contributors
+
+Licensed under the MIT License

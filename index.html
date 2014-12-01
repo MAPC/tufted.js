@@ -290,28 +290,27 @@
 
     // chart.draw(moreLineChartData);
 
-  (function() {
 
-      var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
 
-      var chart2 = d3.select('#bar-chart')
-        .append("svg")
-        .chart("BarChart")
-        .height(400);
 
-      d3.json(url, function(d) {
-        chart2.draw(d.rows);
-      });
-  })();
 
-(function() {
-    var chart = d3.select('#stacked-bar-chart')
-      .append('svg')
-      .chart('StackedBarChart')
-      .height(400);
+    d3.json(url, function(d) {
+  var chart = d3.select('#bar-chart')
+    .append("svg")
+    .chart("BarChart")
+    .height(400);
+      chart.draw(d.rows);
+    });
 
-    chart.draw(stackedBarChartData); 
-})();
+
+  var chart = d3.select('#stacked-bar-chart')
+    .append('svg')
+    .chart('StackedBarChart')
+    .height(400);
+
+  chart.draw(stackedBarChartData); 
+
 
 
 
