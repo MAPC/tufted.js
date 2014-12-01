@@ -1,4 +1,4 @@
-<img height="300" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/tufted-logo-05.png">
+<img height="300" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/tufted-logo-05.png">
 
 tufted.js
 =========
