@@ -1,3 +1,5 @@
+![alt tag](https://raw.githubusercontent.com/MAPC/tufted.js/master/tufted-logo-05.png)
+
 tufted.js
 =========
 
