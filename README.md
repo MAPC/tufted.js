@@ -1,8 +1,4 @@
 <img height="300" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/tufted-logo-05.png">
-
-tufted.js
-=========
-
 Tufted.js is data visualization for the modern web. Designed for urban planners, policy professionals, and data geeks with some coding experience, this tool makes it easy to create mobile-friendly, style-agnostic interactive charts and maps. Additionally, because it's extensible and reusable (using Bocoup's d3.chart: http://bocoup.com/weblog/reusability-with-d3/), it makes it easier for developers to optimize the library for particular projects while creating a bridge across an organization's web products. Ultimately, we hope Tufted.js fills a/the missing link between the data analyst and the developer. 
 
 Dependencies:
