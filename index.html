@@ -21,6 +21,7 @@
   <p id="test-font-detection">Test</p>
   <div id="bar-chart"></div>
   <div id="stacked-bar-chart"></div>
+  <div id="stacked-bar-chart3"></div>
 
   <div id="grouped-bar-chart"></div>
   <div id="my-grouped-bar-chart"></div>
@@ -311,6 +312,76 @@
 
   chart.draw(stackedBarChartData); 
 
+  var stackedBarChartData = [
+
+    {
+      "series":"LA",
+      "Under 5 Years":310716,
+      "5 to 13 Years":542341,
+      "14 to 17 Years":254916,
+      "18 to 24 Years":471275,
+      "25 to 44 Years":1162463,
+      "45 to 64 Years":1128771,
+      "65 Years and Over":540314
+    },
+    {
+      "series":"ME",
+      "Under 5 Years":71459,
+      "5 to 13 Years":133656,
+      "14 to 17 Years":69752,
+      "18 to 24 Years":112682,
+      "25 to 44 Years":331809,
+      "45 to 64 Years":397911,
+      "65 Years and Over":199187
+    },
+    {
+      "series":"MD",
+      "Under 5 Years":371787,
+      "5 to 13 Years":651923,
+      "14 to 17 Years":316873,
+      "18 to 24 Years":543470,
+      "25 to 44 Years":1556225,
+      "45 to 64 Years":1513754,
+      "65 Years and Over":679565
+    },
+    {
+      "series":"MA",
+      "Under 5 Years":383568,
+      "5 to 13 Years":701752,
+      "14 to 17 Years":341713,
+      "18 to 24 Years":665879,
+      "25 to 44 Years":1782449,
+      "45 to 64 Years":1751508,
+      "65 Years and Over":871098
+    },
+    {
+      "series":"MI",
+      "Under 5 Years":625526,
+      "5 to 13 Years":1179503,
+      "14 to 17 Years":585169,
+      "18 to 24 Years":974480,
+      "25 to 44 Years":2628322,
+      "45 to 64 Years":2706100,
+      "65 Years and Over":1304322
+    },
+    {
+      "series":"MN",
+      "Under 5 Years":358471,
+      "5 to 13 Years":606802,
+      "14 to 17 Years":289371,
+      "18 to 24 Years":507289,
+      "25 to 44 Years":1416063,
+      "45 to 64 Years":1391878,
+      "65 Years and Over":650519
+    }
+  ];
+
+  var chart = d3.select('#stacked-bar-chart3')
+    .append('svg')
+    .chart('StackedBarChart')
+    .height(400);
+
+  chart.draw(stackedBarChartData); 
 
 
 
