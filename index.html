@@ -144,16 +144,18 @@
     var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
 
 
-    // var chart = d3.select('#grouped-bar-chart')
-    //   .append('svg')
-    //   .chart('GroupedBarChart')
-    //   .yAxisLabel("Percent")
-    //   .height(400)
-    //   .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+    d3.json(url, function(d) {
 
-    // d3.json(url, function(d) {
-    //     chart.draw(d.rows);    
-    // });
+
+    var chart = d3.select('#grouped-bar-chart')
+      .append('svg')
+      .chart('GroupedBarChart')
+      .yAxisLabel("Percent")
+      .height(400)
+      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+
+        chart.draw(d.rows);    
+    });
     
 
     // d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
@@ -220,76 +222,78 @@
     //   }
     // ];
 
-    // var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
-
-    // var chart = d3.select('#line-chart')
-    //   .append('svg')
-    //   .chart('LineChart')
-    //   .colors(d3.scale.category10())
-    //   .callouts(["Chicago MSA","Boston MSA"])
-    //   .height(400);
+    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
 
 
-    // d3.json(url, function(d) {
-    //   chart.draw(d.rows);  
-    // });
+
+
+    d3.json(url, function(d) {
+      var chart = d3.select('#line-chart')
+        .append('svg')
+        .chart('LineChart')
+        .colors(d3.scale.category10())
+        .callouts(["Chicago MSA","Boston MSA"])
+        .height(400);
+
+      chart.draw(d.rows);  
+    });
     
 
-    // var moreLineChartData = [
-    //   { series: "Red", values:
-    //     [{year: "A", value: 4},
-    //      {year: "B", value: 36},
-    //      {year: "C", value: 36},
-    //      {year: "D", value: 36},
-    //      {year: "E", value: 36},
-    //      {year: "F", value: 36},
-    //      ]
-    //   },
-    //   { series: "Orange", values:
-    //     [{year: "A", value: 36},
-    //      {year: "B", value: 36},
-    //      {year: "C", value: 36},
-    //      {year: "D", value: 36},
-    //      {year: "E", value: 36},
-    //      {year: "F", value: 36},
-    //      ]
-    //   },
-    //   { series: "Green", values:
-    //     [{year: "A", value: 19},
-    //      {year: "B", value: 36},
-    //      {year: "C", value: 36},
-    //      {year: "D", value: 36},
-    //      {year: "E", value: 36},
-    //      {year: "F", value: 36},
-    //      ]
-    //   },
-    //   { series: "Blue", values:
-    //     [{year: "A", value: 2},
-    //      {year: "B", value: 23},
-    //      {year: "C", value: 53},
-    //      {year: "D", value: 14},
-    //      {year: "E", value: 34},
-    //      {year: "F", value: 6},
-    //      ]
-    //   },
-    //   { series: "Yellow", values:
-    //     [{year: "A", value: 6},
-    //      {year: "B", value: 13},
-    //      {year: "C", value: 12},
-    //      {year: "D", value: 3},
-    //      {year: "E", value: 9},
-    //      {year: "F", value: 11},
-    //      ]
-    //   }
-    // ];
+    var moreLineChartData = [
+      { series: "Red", values:
+        [{year: "A", value: 4},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Orange", values:
+        [{year: "A", value: 36},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Green", values:
+        [{year: "A", value: 19},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Blue", values:
+        [{year: "A", value: 2},
+         {year: "B", value: 23},
+         {year: "C", value: 53},
+         {year: "D", value: 14},
+         {year: "E", value: 34},
+         {year: "F", value: 6},
+         ]
+      },
+      { series: "Yellow", values:
+        [{year: "A", value: 6},
+         {year: "B", value: 13},
+         {year: "C", value: 12},
+         {year: "D", value: 3},
+         {year: "E", value: 9},
+         {year: "F", value: 11},
+         ]
+      }
+    ];
 
-    // var chart = d3.select('#line-chart-callouts')
-    //   .append('svg')
-    //   .chart('LineChart')
-    //   .colors(d3.scale.category10())
-    //   .height(400);
+    var chart = d3.select('#line-chart-callouts')
+      .append('svg')
+      .chart('LineChart')
+      .colors(d3.scale.category10())
+      .height(400);
 
-    // chart.draw(moreLineChartData);
+    chart.draw(moreLineChartData);
 
 
   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
@@ -300,6 +304,7 @@
   var chart = d3.select('#bar-chart')
     .append("svg")
     .chart("BarChart")
+    .format('.2s')
     .height(400);
       chart.draw(d.rows);
     });
@@ -308,80 +313,17 @@
   var chart = d3.select('#stacked-bar-chart')
     .append('svg')
     .chart('StackedBarChart')
+    .format('.2s')
     .height(400);
 
   chart.draw(stackedBarChartData); 
 
-  var stackedBarChartData = [
+  // var chart = d3.select('#stacked-bar-chart3')
+  //   .append('svg')
+  //   .chart('StackedBarChart')
+  //   .height(400);
 
-    {
-      "series":"LA",
-      "Under 5 Years":310716,
-      "5 to 13 Years":542341,
-      "14 to 17 Years":254916,
-      "18 to 24 Years":471275,
-      "25 to 44 Years":1162463,
-      "45 to 64 Years":1128771,
-      "65 Years and Over":540314
-    },
-    {
-      "series":"ME",
-      "Under 5 Years":71459,
-      "5 to 13 Years":133656,
-      "14 to 17 Years":69752,
-      "18 to 24 Years":112682,
-      "25 to 44 Years":331809,
-      "45 to 64 Years":397911,
-      "65 Years and Over":199187
-    },
-    {
-      "series":"MD",
-      "Under 5 Years":371787,
-      "5 to 13 Years":651923,
-      "14 to 17 Years":316873,
-      "18 to 24 Years":543470,
-      "25 to 44 Years":1556225,
-      "45 to 64 Years":1513754,
-      "65 Years and Over":679565
-    },
-    {
-      "series":"MA",
-      "Under 5 Years":383568,
-      "5 to 13 Years":701752,
-      "14 to 17 Years":341713,
-      "18 to 24 Years":665879,
-      "25 to 44 Years":1782449,
-      "45 to 64 Years":1751508,
-      "65 Years and Over":871098
-    },
-    {
-      "series":"MI",
-      "Under 5 Years":625526,
-      "5 to 13 Years":1179503,
-      "14 to 17 Years":585169,
-      "18 to 24 Years":974480,
-      "25 to 44 Years":2628322,
-      "45 to 64 Years":2706100,
-      "65 Years and Over":1304322
-    },
-    {
-      "series":"MN",
-      "Under 5 Years":358471,
-      "5 to 13 Years":606802,
-      "14 to 17 Years":289371,
-      "18 to 24 Years":507289,
-      "25 to 44 Years":1416063,
-      "45 to 64 Years":1391878,
-      "65 Years and Over":650519
-    }
-  ];
-
-  var chart = d3.select('#stacked-bar-chart3')
-    .append('svg')
-    .chart('StackedBarChart')
-    .height(400);
-
-  chart.draw(stackedBarChartData); 
+  // chart.draw(stackedBarChartData); 
 
 
 
