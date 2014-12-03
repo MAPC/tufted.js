@@ -304,7 +304,7 @@
   var chart = d3.select('#bar-chart')
     .append("svg")
     .chart("BarChart")
-    .format('.2s')
+    .yFormat('.2s')
     .height(400);
       chart.draw(d.rows);
     });
@@ -313,7 +313,7 @@
   var chart = d3.select('#stacked-bar-chart')
     .append('svg')
     .chart('StackedBarChart')
-    .format('.2s')
+    .yFormat('.2s')
     .height(400);
 
   chart.draw(stackedBarChartData); 
