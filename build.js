@@ -4,6 +4,7 @@ var groupedbarchart = require('./lib/groupedBarChart');
 var linechart = require('./lib/lineChart');
 var stackedbarchart = require('./lib/stackedBarChart');
 var axis = require('./lib/axis');
+var scatterPlot = require('./lib/scatterPlot');
 // var legendmixin = require('./lib/legendMixin');
 // module.exports = {
 //   barchart: barchart,
@@ -21,3 +22,4 @@ exports.barchart = barchart
 exports.groupedbarchart = groupedbarchart
 exports.linechart = linechart
 exports.stackedbarchart = stackedbarchart
+exports.scatterPlot = scatterPlot

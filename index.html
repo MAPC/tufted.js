@@ -2,6 +2,7 @@
 <html lang="en">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="css/tufted.css" rel="stylesheet" type="text/css">
 <head>
   <meta charset="UTF-8">
   
@@ -19,7 +20,7 @@
 <body>
   <a href="#" id="d3-download">Download ALl The Charts</a>
   <p id="test-font-detection">Test</p>
-  <div id="bar-chart"></div>
+  <div id="scatter-plot-chart"></div>
   <div id="stacked-bar-chart"></div>
   <div id="stacked-bar-chart3"></div>
 
@@ -27,6 +28,7 @@
   <div id="my-grouped-bar-chart"></div>
   <div id="line-chart"></div>
   <div id="line-chart-callouts"></div>
+  <div id="bar-chart"></div>
   
   <script src="required/simg.js"></script>
   <script src="required/d3.js"></script>
@@ -145,14 +147,12 @@
 
 
     d3.json(url, function(d) {
-
-
-    var chart = d3.select('#grouped-bar-chart')
-      .append('svg')
-      .chart('GroupedBarChart')
-      .yAxisLabel("Percent")
-      .height(400)
-      .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+      var chart = d3.select('#grouped-bar-chart')
+        .append('svg')
+        .chart('GroupedBarChart')
+        .yAxisLabel("Percent")
+        .height(400)
+        .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
 
         chart.draw(d.rows);    
     });
@@ -242,10 +242,10 @@
     var moreLineChartData = [
       { series: "Red", values:
         [{year: "A", value: 4},
-         {year: "B", value: 36},
+         {year: "B", value: -36},
          {year: "C", value: 36},
          {year: "D", value: 36},
-         {year: "E", value: 36},
+         {year: "E", value: -36},
          {year: "F", value: 36},
          ]
       },
@@ -317,6 +317,26 @@
     .height(400);
 
   chart.draw(stackedBarChartData); 
+
+  var scatterPlotData = [
+    {x: 13, y: 4},
+    {x: 1, y: 36},
+    {x: -90, y: -19},
+    {x: 6, y: -2},
+    {x: 80, y: 6},
+  ];
+
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
+
+  d3.json(url, function(d) {
+    var chart = d3.select('#scatter-plot-chart')
+      .append('svg')
+      .chart('ScatterPlot')
+      .height(400);
+
+    chart.draw(d.rows);
+  });
+
 
   // var chart = d3.select('#stacked-bar-chart3')
   //   .append('svg')
