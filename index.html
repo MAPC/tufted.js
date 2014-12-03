@@ -20,6 +20,7 @@
 <body>
   <a href="#" id="d3-download">Download ALl The Charts</a>
   <p id="test-font-detection">Test</p>
+  <div id ="map"></div>
   <div id="scatter-plot-chart"></div>
   <div id="stacked-bar-chart"></div>
   <div id="stacked-bar-chart3"></div>
@@ -110,284 +111,166 @@
     ];
 
 
-
-    var testDataTwoDimension = [
-      {name: 'Apples with no worms', value: 4},
-      {name: 'Berries that are not chilled', value: 36},
-      {name: 'Carrots with shavings', value: -19},
-      {name: 'Dandelions that are inedible', value: -2},
-      {name: 'Eels named Erin', value: 6},
-    ];
-
-
-
-
-
-    var testDataTwoDimension = [
-      {name: 'A', value: 4},
-      {name: 'B', value: -36},
-      {name: 'C', value: 19},
-      {name: 'D', value: -2},
-      {name: 'E', value: 6},
-    ];
-
-
-    var averagesData = [
-      {
-        name: "Regional Average Debt",
-        value: 15241.87
-      },
-      {
-        name: "National Average Debt",
-        value: 14731.54
-      }
-    ];
-
     var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
 
-
-    d3.json(url, function(d) {
       var chart = d3.select('#grouped-bar-chart')
         .append('svg')
         .chart('GroupedBarChart')
         .yAxisLabel("Percent")
         .height(400)
         .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
-
+    d3.json(url, function(d) {
         chart.draw(d.rows);    
     });
+
+  //   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
+
+  //   d3.json(url, function(d) {
+  //     var chart = d3.select('#line-chart')
+  //       .append('svg')
+  //       .chart('LineChart')
+  //       .colors(d3.scale.category10())
+  //       .callouts(["Chicago MSA","Boston MSA"])
+  //       .height(400);
+
+  //     chart.draw(d.rows);  
+  //   });
     
+  //   var moreLineChartData = [
+  //     { series: "Red", values:
+  //       [{year: "A", value: 4},
+  //        {year: "B", value: -36},
+  //        {year: "C", value: 36},
+  //        {year: "D", value: 36},
+  //        {year: "E", value: -36},
+  //        {year: "F", value: 36},
+  //        ]
+  //     },
+  //     { series: "Orange", values:
+  //       [{year: "A", value: 36},
+  //        {year: "B", value: 36},
+  //        {year: "C", value: 36},
+  //        {year: "D", value: 36},
+  //        {year: "E", value: 36},
+  //        {year: "F", value: 36},
+  //        ]
+  //     },
+  //     { series: "Green", values:
+  //       [{year: "A", value: 19},
+  //        {year: "B", value: 36},
+  //        {year: "C", value: 36},
+  //        {year: "D", value: 36},
+  //        {year: "E", value: 36},
+  //        {year: "F", value: 36},
+  //        ]
+  //     },
+  //     { series: "Blue", values:
+  //       [{year: "A", value: 2},
+  //        {year: "B", value: 23},
+  //        {year: "C", value: 53},
+  //        {year: "D", value: 14},
+  //        {year: "E", value: 34},
+  //        {year: "F", value: 6},
+  //        ]
+  //     },
+  //     { series: "Yellow", values:
+  //       [{year: "A", value: 6},
+  //        {year: "B", value: 13},
+  //        {year: "C", value: 12},
+  //        {year: "D", value: 3},
+  //        {year: "E", value: 9},
+  //        {year: "F", value: 11},
+  //        ]
+  //     }
+  //   ];
 
-    // d3.chart('GroupedBarChart').extend('MyGroupedBarChart', {
-    //   transform: function(data) {
+  //   var chart = d3.select('#line-chart-callouts')
+  //     .append('svg')
+  //     .chart('LineChart')
+  //     .colors(d3.scale.category10())
+  //     .height(400);
 
-    //     return data;
-    //   }
-    // });
+  //   chart.draw(moreLineChartData);
 
-    // var chart = d3.select('#my-grouped-bar-chart')
-    //   .append('svg')
-    //   .chart('MyGroupedBarChart')
-    //   .colors()
-    //   .height(400);
+  // var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
 
-    // chart.draw(groupedBarData);
+  //   d3.json(url, function(d) {
+  //     var chart = d3.select('#bar-chart')
+  //       .append("svg")
+  //       .chart("BarChart")
+  //       .yFormat('.2s')
+  //       .height(400);
 
+  //     chart.draw(d.rows);
+  //   });
 
-    // var lineChartData = [
-    //   { series: "Oranges", values:
-    //     [{year: "A", value: 4},
-    //      {year: "B", value: 36},
-    //      {year: "C", value: 36},
-    //      {year: "D", value: 36},
-    //      {year: "E", value: 36},
-    //      {year: "F", value: 36},
-    //      ]
-    //   },
-    //   { series: "Apples", values:
-    //     [{year: "A", value: 36},
-    //      {year: "B", value: 36},
-    //      {year: "C", value: 36},
-    //      {year: "D", value: 36},
-    //      {year: "E", value: 36},
-    //      {year: "F", value: 36},
-    //      ]
-    //   },
-    //   { series: "Bananas", values:
-    //     [{year: "A", value: 19},
-    //      {year: "B", value: 36},
-    //      {year: "C", value: 36},
-    //      {year: "D", value: 36},
-    //      {year: "E", value: 36},
-    //      {year: "F", value: 36},
-    //      ]
-    //   },
-    //   { series: "Grapes", values:
-    //     [{year: "A", value: 2},
-    //      {year: "B", value: 23},
-    //      {year: "C", value: 53},
-    //      {year: "D", value: 14},
-    //      {year: "E", value: 34},
-    //      {year: "F", value: 6},
-    //      ]
-    //   },
-    //   { series: "Kiwi", values:
-    //     [{year: "A", value: 6},
-    //      {year: "B", value: 13},
-    //      {year: "C", value: 12},
-    //      {year: "D", value: 3},
-    //      {year: "E", value: 9},
-    //      {year: "F", value: 11},
-    //      ]
-    //   }
-    // ];
-
-    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
-
-
-
-
-    d3.json(url, function(d) {
-      var chart = d3.select('#line-chart')
-        .append('svg')
-        .chart('LineChart')
-        .colors(d3.scale.category10())
-        .callouts(["Chicago MSA","Boston MSA"])
-        .height(400);
-
-      chart.draw(d.rows);  
-    });
-    
-
-    var moreLineChartData = [
-      { series: "Red", values:
-        [{year: "A", value: 4},
-         {year: "B", value: -36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: -36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Orange", values:
-        [{year: "A", value: 36},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Green", values:
-        [{year: "A", value: 19},
-         {year: "B", value: 36},
-         {year: "C", value: 36},
-         {year: "D", value: 36},
-         {year: "E", value: 36},
-         {year: "F", value: 36},
-         ]
-      },
-      { series: "Blue", values:
-        [{year: "A", value: 2},
-         {year: "B", value: 23},
-         {year: "C", value: 53},
-         {year: "D", value: 14},
-         {year: "E", value: 34},
-         {year: "F", value: 6},
-         ]
-      },
-      { series: "Yellow", values:
-        [{year: "A", value: 6},
-         {year: "B", value: 13},
-         {year: "C", value: 12},
-         {year: "D", value: 3},
-         {year: "E", value: 9},
-         {year: "F", value: 11},
-         ]
-      }
-    ];
-
-    var chart = d3.select('#line-chart-callouts')
-      .append('svg')
-      .chart('LineChart')
-      .colors(d3.scale.category10())
-      .height(400);
-
-    chart.draw(moreLineChartData);
-
-
-  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
-
-
-
-    d3.json(url, function(d) {
-  var chart = d3.select('#bar-chart')
-    .append("svg")
-    .chart("BarChart")
-    .yFormat('.2s')
-    .height(400);
-      chart.draw(d.rows);
-    });
-
-
-  var chart = d3.select('#stacked-bar-chart')
-    .append('svg')
-    .chart('StackedBarChart')
-    .yFormat('.2s')
-    .height(400);
-
-  chart.draw(stackedBarChartData); 
-
-  var scatterPlotData = [
-    {x: 13, y: 4},
-    {x: 1, y: 36},
-    {x: -90, y: -19},
-    {x: 6, y: -2},
-    {x: 80, y: 6},
-  ];
-
-  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
-
-  d3.json(url, function(d) {
-    var chart = d3.select('#scatter-plot-chart')
-      .append('svg')
-      .chart('ScatterPlot')
-      .height(400);
-
-    chart.draw(d.rows);
-  });
-
-
-  // var chart = d3.select('#stacked-bar-chart3')
+  // var chart = d3.select('#stacked-bar-chart')
   //   .append('svg')
   //   .chart('StackedBarChart')
+  //   .yFormat('.2s')
   //   .height(400);
 
   // chart.draw(stackedBarChartData); 
 
+  // var scatterPlotData = [
+  //   {x: 13, y: 4},
+  //   {x: 1, y: 36},
+  //   {x: -90, y: -19},
+  //   {x: 6, y: -2},
+  //   {x: 80, y: 6},
+  // ];
 
+  // var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
 
-    // // $(document).ready(function() {
+  // d3.json(url, function(d) {
+  //   var chart = d3.select('#scatter-plot-chart')
+  //     .append('svg')
+  //     .chart('ScatterPlot')
+  //     .height(400);
 
-    //   var saveImages = function(callback) {
-    //     var zip = new JSZip();
-    //     var img = zip.folder("images");
+  //   chart.draw(d.rows);
+  // });
 
-    //     $("svg").each(function(index, svg) {
-    //       var simages = [];
-    //       simages[index] = new Simg(svg);
+  // var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20mapc_towns_poly%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=5";
 
-    //       simages[index].toImg(function(image) {
-    //         console.log("bounce!");
-    //         var filedata = Simg.getBase64Image(image);
-    //         var filename = "chart-" + index + ".png"
-    //         img.file(filename, filedata, {base64: true})
-    //       })
+  // d3.json(url, function(json) {
+  //    var width  = 700;
+  //   var height = 600;
 
-    //     });
+  //   var vis = d3.select("#map").append("svg")
+  //       .attr("width", width).attr("height", height)
 
-    //     setTimeout(function(){
-    //       if(callback) callback(zip);
-    //     }, 500);
-        
-    //   }
+  //   var center = d3.geo.centroid(json)
+  //     var scale  = 150;
+  //     var offset = [width/2, height/2];
+  //     var projection = d3.geo.mercator().scale(scale).center(center)
+  //         .translate(offset);
 
-    //   var saveZip = function(zip) {
-    //     var content = zip.generate({type:"blob"});
-    //     saveAs(content, "example.zip");
-    //   }
+  //     var path = d3.geo.path().projection(projection);
 
-    //   var downloadSvgs = function () {
-    //     saveImages(function(zip) {
-    //       saveZip(zip);
-    //     })
-    //   }
+  //     var bounds  = path.bounds(json);
+  //     var hscale  = scale*width  / (bounds[1][0] - bounds[0][0]);
+  //     var vscale  = scale*height / (bounds[1][1] - bounds[0][1]);
+  //     var scale   = (hscale < vscale) ? hscale : vscale;
+  //     var offset  = [width - (bounds[0][0] + bounds[1][0])/2,
+  //                       height - (bounds[0][1] + bounds[1][1])/2];
 
-    //   $("#d3-download").on("click", function() {
-    //     downloadSvgs();
-    //   });
+  //     projection = d3.geo.mercator().center(center)
+  //       .scale(scale).translate(offset);
 
-    // });
+  //     path = path.projection(projection);
+
+  //     vis.append("rect").attr('width', width).attr('height', height)
+  //       .style('stroke', 'none').style('fill', 'none');
+
+  //     vis.selectAll("path").data(json.features).enter().append("path")
+  //       .attr("d", path)
+  //       .style("fill", "lightblue")
+  //       .style("stroke-width", "1")
+  //       .style("stroke", "white")
+
+  // })
+
 
   </script>
 </body>
