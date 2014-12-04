@@ -111,107 +111,106 @@
     ];
 
 
-  //   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
+    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
 
-  // var chart = d3.select('#grouped-bar-chart')
-  //   .append('svg')
-  //   .chart('GroupedBarChart')
-  //   .yAxisLabel("Percent")
-  //   .height(400)
-  //   .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+    d3.json(url, function(d) {
+      var chart = d3.select('#grouped-bar-chart')
+        .append('svg')
+        .chart('GroupedBarChart')
+        .yAxisLabel("Percent")
+        .height(400)
+        .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+      chart.draw(d.rows);    
+    });
 
-  //   d3.json(url, function(d) {
-  //     chart.draw(d.rows);    
-  //   });
+    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
 
-  //   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
+    d3.json(url, function(d) {
+      var chart = d3.select('#line-chart')
+        .append('svg')
+        .chart('LineChart')
+        .colors(d3.scale.category10())
+        .callouts(["Chicago MSA","Boston MSA"])
+        .height(400);
 
-  //   d3.json(url, function(d) {
-  //     var chart = d3.select('#line-chart')
-  //       .append('svg')
-  //       .chart('LineChart')
-  //       .colors(d3.scale.category10())
-  //       .callouts(["Chicago MSA","Boston MSA"])
-  //       .height(400);
-
-  //     chart.draw(d.rows);  
-  //   });
+      chart.draw(d.rows);  
+    });
     
-  //   var moreLineChartData = [
-  //     { series: "Red", values:
-  //       [{year: "A", value: 4},
-  //        {year: "B", value: -36},
-  //        {year: "C", value: 36},
-  //        {year: "D", value: 36},
-  //        {year: "E", value: -36},
-  //        {year: "F", value: 36},
-  //        ]
-  //     },
-  //     { series: "Orange", values:
-  //       [{year: "A", value: 36},
-  //        {year: "B", value: 36},
-  //        {year: "C", value: 36},
-  //        {year: "D", value: 36},
-  //        {year: "E", value: 36},
-  //        {year: "F", value: 36},
-  //        ]
-  //     },
-  //     { series: "Green", values:
-  //       [{year: "A", value: 19},
-  //        {year: "B", value: 36},
-  //        {year: "C", value: 36},
-  //        {year: "D", value: 36},
-  //        {year: "E", value: 36},
-  //        {year: "F", value: 36},
-  //        ]
-  //     },
-  //     { series: "Blue", values:
-  //       [{year: "A", value: 2},
-  //        {year: "B", value: 23},
-  //        {year: "C", value: 53},
-  //        {year: "D", value: 14},
-  //        {year: "E", value: 34},
-  //        {year: "F", value: 6},
-  //        ]
-  //     },
-  //     { series: "Yellow", values:
-  //       [{year: "A", value: 6},
-  //        {year: "B", value: 13},
-  //        {year: "C", value: 12},
-  //        {year: "D", value: 3},
-  //        {year: "E", value: 9},
-  //        {year: "F", value: 11},
-  //        ]
-  //     }
-  //   ];
+    var moreLineChartData = [
+      { series: "Red", values:
+        [{year: "A", value: 4},
+         {year: "B", value: -36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: -36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Orange", values:
+        [{year: "A", value: 36},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Green", values:
+        [{year: "A", value: 19},
+         {year: "B", value: 36},
+         {year: "C", value: 36},
+         {year: "D", value: 36},
+         {year: "E", value: 36},
+         {year: "F", value: 36},
+         ]
+      },
+      { series: "Blue", values:
+        [{year: "A", value: 2},
+         {year: "B", value: 23},
+         {year: "C", value: 53},
+         {year: "D", value: 14},
+         {year: "E", value: 34},
+         {year: "F", value: 6},
+         ]
+      },
+      { series: "Yellow", values:
+        [{year: "A", value: 6},
+         {year: "B", value: 13},
+         {year: "C", value: 12},
+         {year: "D", value: 3},
+         {year: "E", value: 9},
+         {year: "F", value: 11},
+         ]
+      }
+    ];
 
-  //   var chart = d3.select('#line-chart-callouts')
-  //     .append('svg')
-  //     .chart('LineChart')
-  //     .colors(d3.scale.category10())
-  //     .height(400);
+    var chart = d3.select('#line-chart-callouts')
+      .append('svg')
+      .chart('LineChart')
+      .colors(d3.scale.category10())
+      .height(400);
 
-  //   chart.draw(moreLineChartData);
+    chart.draw(moreLineChartData);
 
-  // var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
 
-  //   d3.json(url, function(d) {
-  //     var chart = d3.select('#bar-chart')
-  //       .append("svg")
-  //       .chart("BarChart")
-  //       .yFormat('.2s')
-  //       .height(400);
+    d3.json(url, function(d) {
+      var chart = d3.select('#bar-chart')
+        .append("svg")
+        .chart("BarChart")
+        .yFormat('.2s')
+        .height(400);
 
-  //     chart.draw(d.rows);
-  //   });
+      chart.draw(d.rows);
+    });
 
-  // var chart = d3.select('#stacked-bar-chart')
-  //   .append('svg')
-  //   .chart('StackedBarChart')
-  //   .yFormat('.2s')
-  //   .height(400);
+  var chart = d3.select('#stacked-bar-chart')
+    .append('svg')
+    .chart('StackedBarChart')
+    .yFormat('.2s')
+    .height(400);
 
-  // chart.draw(stackedBarChartData); 
+  chart.draw(stackedBarChartData); 
 
   // var scatterPlotData = [
   //   {x: 13, y: 4},
@@ -221,64 +220,28 @@
   //   {x: 80, y: 6},
   // ];
 
-  // var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
 
-  // d3.json(url, function(d) {
-  //   var chart = d3.select('#scatter-plot-chart')
-  //     .append('svg')
-  //     .chart('ScatterPlot')
-  //     .height(400);
-
-  //   chart.draw(d.rows);
-  // });
-
-  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20mapc_towns_poly%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=5";
-
-  d3.json(url, function(json) {
-    var chart = d3.select('#map')
+  d3.json(url, function(d) {
+    var chart = d3.select('#scatter-plot-chart')
       .append('svg')
-      .chart('choroplethMap')
-      .height(900);
+      .chart('ScatterPlot')
+      .height(400);
 
-      d3.json(url, function(d) {
-        chart.draw(d);    
-      });
+    chart.draw(d.rows);
   });
 
-  //    var width  = 700;
-  //   var height = 600;
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20pop2000%20AS value, the_geom FROM mapc_towns_joined%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=5";
 
-  //   var vis = d3.select("#map").append("svg")
-  //       .attr("width", width).attr("height", height)
+  var map = d3.select('#map') 
+      .append('svg')
+      .chart('choroplethMap')
+      .height(600);;
 
-  //   var center = d3.geo.centroid(json)
-  //     var scale  = 150;
-  //     var offset = [width/2, height/2];
-  //     var projection = d3.geo.mercator().scale(scale).center(center)
-  //         .translate(offset);
+  d3.json(url, function(json) {
+    map.draw(json);    
+  });
 
-  //     var path = d3.geo.path().projection(projection);
-
-  //     var bounds  = path.bounds(json);
-  //     var hscale  = scale*width  / (bounds[1][0] - bounds[0][0]);
-  //     var vscale  = scale*height / (bounds[1][1] - bounds[0][1]);
-  //     var scale   = (hscale < vscale) ? hscale : vscale;
-  //     var offset  = [width - (bounds[0][0] + bounds[1][0])/2,
-  //                       height - (bounds[0][1] + bounds[1][1])/2];
-
-  //     projection = d3.geo.mercator().center(center)
-  //       .scale(scale).translate(offset);
-
-  //     path = path.projection(projection);
-
-  //     vis.append("rect").attr('width', width).attr('height', height)
-  //       .style('stroke', 'none').style('fill', 'none');
-
-  //     vis.selectAll("path").data(json.features).enter().append("path")
-  //       .attr("d", path)
-  //       .style("fill", "lightblue")
-  //       .style("stroke-width", "1")
-  //       .style("stroke", "white")
 
   </script>
 </body>
