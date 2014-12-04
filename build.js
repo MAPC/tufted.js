@@ -5,16 +5,7 @@ var linechart = require('./lib/lineChart');
 var stackedbarchart = require('./lib/stackedBarChart');
 var axis = require('./lib/axis');
 var scatterPlot = require('./lib/scatterPlot');
-// var legendmixin = require('./lib/legendMixin');
-// module.exports = {
-//   barchart: barchart,
-//   basechart: basechart,
-//   groupedbarchart: groupedbarchart,
-//   linechart: linechart,
-//   stackedbarchart: stackedbarchart
-// } 
-
-
+var choroplethMap = require('./lib/choroplethMap');
 
 exports.axis = axis
 exports.basechart = basechart
@@ -23,3 +14,4 @@ exports.groupedbarchart = groupedbarchart
 exports.linechart = linechart
 exports.stackedbarchart = stackedbarchart
 exports.scatterPlot = scatterPlot
+exports.choroplethMap = choroplethMap
