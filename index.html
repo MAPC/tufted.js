@@ -192,7 +192,7 @@
 
     chart.draw(moreLineChartData);
 
-  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type";
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type%20LIMIT%205";
 
     d3.json(url, function(d) {
       var chart = d3.select('#bar-chart')
@@ -200,6 +200,8 @@
         .chart("BarChart")
         .yFormat('.2s')
         .height(400);
+      //testing some negative values
+      d.rows[0].value = d.rows[0].value*-1;
 
       chart.draw(d.rows);
     });
@@ -211,14 +213,6 @@
     .height(400);
 
   chart.draw(stackedBarChartData); 
-
-  // var scatterPlotData = [
-  //   {x: 13, y: 4},
-  //   {x: 1, y: 36},
-  //   {x: -90, y: -19},
-  //   {x: 6, y: -2},
-  //   {x: 80, y: 6},
-  // ];
 
   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
 
@@ -236,7 +230,7 @@
   var map = d3.select('#map') 
       .append('svg')
       .chart('choroplethMap')
-      .height(600);;
+      .height(600);
 
   d3.json(url, function(json) {
     map.draw(json);    
