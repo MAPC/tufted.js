@@ -15,7 +15,6 @@
   <body>
     <div class="wrapper">
       <header>
-        <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/tufted-logo-05.png">
         <h1>Tufted.js</h1>
         <p>Terse D3 charts</p>
 
@@ -30,7 +29,7 @@
       </header>
       <section>
         <h1>
-<a id="tuftedjs" class="anchor" href="#tuftedjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>tufted.js</h1>
+        <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/tufted-logo-05.png">
 
 <p>Tufted.js is data visualization for the modern web. Designed for urban planners, policy professionals, and data geeks with some coding experience, this tool makes it easy to create mobile-friendly, style-agnostic interactive charts and maps. Additionally, because it's extensible and reusable (using Bocoup's d3.chart: <a href="http://bocoup.com/weblog/reusability-with-d3/">http://bocoup.com/weblog/reusability-with-d3/</a>), it makes it easier for developers to optimize the library for particular projects while creating a bridge across an organization's web products. Ultimately, we hope Tufted.js fills a/the missing link between the data analyst and the developer. </p>
 
@@ -39,67 +38,85 @@ D3.js
 D3chart.js </p>
 
 <p>Development:
-browserify</p>
+Download the repo and edit index.html. For live reload, use beefy:
+beefy build.js:tufted.js --live</p>
 
 <p>Optional:
 beefy</p>
 
 <p>Build:
-beefy build.js:tufted.js --live</p>
+browserify build.js > tufted.js</p>
 
-<p>Examples:
+<p>Data:
+Tufted uses CartoDB's SQL API which allows users to quickly visualize data. Start an account at CartoDB.com.  
+</p>
+
+<pre><code>
+<p>Charts:
 Bar Chart:</p>
 
-<pre><code>var testDataTwoDimension = [
-      {name: 'A', value: 4},
-      {name: 'B', value: -36},
-      {name: 'C', value: 19},
-      {name: 'D', value: -2},
-      {name: 'E', value: 6},
-    ];
+  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type%20LIMIT%205";
 
-var chart = d3.select('#chart')
-      .append("svg")
-      .chart("BarChart")
-      .width(400)
-      .height(400);
+    d3.json(url, function(d) {
+      var chart = d3.select('#bar-chart')
+        .append("svg")
+        .chart("BarChart")
+        .yFormat('.2s')
+        .height(400);
+      //testing some negative values
+      d.rows[0].value = d.rows[0].value*-1;
 
-chart.draw(testDataTwoDimension); 
+      chart.draw(d.rows);
+    });
+
 </code></pre>
 
+<pre><code>
 <p>Grouped Bar Chart:</p>
 
-<pre><code>var groupedBarData = [
-    { series: "1", values:
-      [{name: 'A', value: 4},
-       {name: 'B', value: 36}]
-    },
-    { series: "2", values:
-      [{name: 'A', value: 36},
-       {name: 'B', value: 36}]
-    },
-    { series: "3", values:
-      [{name: 'A', value: 19},
-       {name: 'B', value: 36}]
-    },
-    { series: "4", values:
-      [{name: 'A', value: 2},
-       {name: 'B', value: 36}]
-    },
-    { series: "5", values:
-      [{name: 'A', value: 6},
-       {name: 'B', value: 6}]
-    }
-    ];
+    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
 
-var chart = d3.select('#grouped-bar-chart')
-      .append("svg")
-      .chart("GroupedBarChart")
-      .width(400)
-      .height(400);
+    d3.json(url, function(d) {
+      var chart = d3.select('#grouped-bar-chart')
+        .append('svg')
+        .chart('GroupedBarChart')
+        .yAxisLabel("Percent")
+        .height(400)
+        .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+      chart.draw(d.rows);    
+    });
 
-chart.draw(groupedBarData);
 </code></pre>
+
+<pre><code>
+  <p>Line Chart:</p>
+  
+    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
+
+    d3.json(url, function(d) {
+      var chart = d3.select('#line-chart')
+        .append('svg')
+        .chart('LineChart')
+        .colors(d3.scale.category10())
+        .callouts(["Chicago MSA","Boston MSA"])
+        .height(400);
+
+      chart.draw(d.rows);  
+    });
+</code></pre>
+
+<p>Public selections:
+To call D3 functions on existing selections, use <code>layer("<chart layer name>")</code>. For example, BarChart contains a "bars" layer. To access that selection, simply use <code>chart.layer("bars")</code>.
+</p>
+
+<p>Other options:
+All charts come with some optional helper methods. These include:
+1. .colors(["<Array of Hext Codes>"])
+2. .height(<integer>)
+3. .width(<integer>)
+4. .yAxis(<string>)
+</p>
+
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/MAPC">MAPC</a></p>
