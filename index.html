@@ -51,10 +51,10 @@ browserify build.js > tufted.js</p>
 Tufted uses CartoDB's SQL API which allows users to quickly visualize data. Start an account at CartoDB.com.  
 </p>
 
-<img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/map.png">
-<pre><code>
 <p>Charts:
 Choropleth Maps:</p>
+<img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/map.png">
+<pre><code>
   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20pop2000%20AS value, the_geom FROM mapc_towns_joined%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=5";
 
   var map = d3.select('#map') 
@@ -67,9 +67,10 @@ Choropleth Maps:</p>
   });
 </pre></code>
 
+<p>Grouped Bar Chart:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/grouped.png">
 <pre><code>
-<p>Grouped Bar Chart:</p>
+
 
     var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
 
@@ -84,10 +85,11 @@ Choropleth Maps:</p>
     });
 
 </code></pre>
+
+<p>Scatterplot:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/scatter.png">
 <pre><code>
-  <p>Scatterplot:
-  </p>
+
   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
 
   d3.json(url, function(d) {
@@ -100,10 +102,9 @@ Choropleth Maps:</p>
   });
 </code></pre>
 
+<p>Line Chart:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/line.png">
 <pre><code>
-  <p>Line Chart:</p>
-  
     var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
 
     d3.json(url, function(d) {
