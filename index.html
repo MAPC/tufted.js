@@ -33,26 +33,26 @@
 <a id="tuftedjs" class="anchor" href="#tuftedjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>tufted.js</h1>
 <p>Tufted.js is data visualization for the modern web. Designed for urban planners, policy professionals, and data geeks with some coding experience, this tool makes it easy to create mobile-friendly, style-agnostic interactive charts and maps. Additionally, because it's extensible and reusable (using Bocoup's d3.chart: <a href="http://bocoup.com/weblog/reusability-with-d3/">http://bocoup.com/weblog/reusability-with-d3/</a>), it makes it easier for developers to optimize the library for particular projects while creating a bridge across an organization's web products. Ultimately, we hope Tufted.js fills a/the missing link between the data analyst and the developer. </p>
 
-<p>Dependencies:
+<p><strong>Dependencies:</strong>
 D3.js
 D3chart.js </p>
 
-<p>Development:
+<p><strong>Development:</strong>
 Download the repo and edit index.html. For live reload, use beefy:
 beefy build.js:tufted.js --live</p>
 
-<p>Optional:
+<p><strong>Optional:</strong>
 beefy</p>
 
-<p>Build:
+<p><strong>Build:</strong>
 browserify build.js > tufted.js</p>
 
-<p>Data:
+<p><strong>Data:</strong>
 Tufted uses CartoDB's SQL API which allows users to quickly visualize data. Start an account at CartoDB.com.  
 </p>
 
-<p>Charts:
-Choropleth Maps:</p>
+<strong>Charts:</strong>
+<p></p>Choropleth Maps:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/map.png">
 <pre><code>
   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20pop2000%20AS value, the_geom FROM mapc_towns_joined%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=5";
@@ -70,8 +70,6 @@ Choropleth Maps:</p>
 <p>Grouped Bar Chart:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/grouped.png">
 <pre><code>
-
-
     var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year AS name,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id LIMIT 4";
 
     d3.json(url, function(d) {
@@ -89,8 +87,7 @@ Choropleth Maps:</p>
 <p>Scatterplot:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/scatter.png">
 <pre><code>
-
-  var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
+var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20msa_name%20AS%20name,%20associate_degree_or_higher%20AS%20x,%20no_high_school_diploma%20AS%20y%20FROM%20edattain_by_msa";
 
   d3.json(url, function(d) {
     var chart = d3.select('#scatter-plot-chart')
@@ -105,7 +102,7 @@ Choropleth Maps:</p>
 <p>Line Chart:</p>
 <img width="100%" align="right" src="https://raw.githubusercontent.com/MAPC/tufted.js/master/line.png">
 <pre><code>
-    var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
+var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20max(msa_name)%20AS%20series,%20msa_id,%20json_agg(row_to_json((SELECT%20r%20FROM%20(SELECT%20year,labor_force_of_25_64_year_olds_1%20AS%20value%20)%20r%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL))ORDER%20BY%20year%20ASC)%20AS%20values%20FROM%20labor_force_participation_msa%20WHERE%20labor_force_of_25_64_year_olds_1%20IS%20NOT%20NULL%20GROUP%20BY%20msa_id"
 
     d3.json(url, function(d) {
       var chart = d3.select('#line-chart')
@@ -119,11 +116,8 @@ Choropleth Maps:</p>
     });
 </code></pre>
 
-
+<p>Bar Chart:</p>
 <pre><code>
-<p>Charts:
-Bar Chart:</p>
-
   var url = "http://regionalindicators.cartodb.com/api/v2/sql?q=SELECT%20community_type%20AS%20name,%20employment%20AS%20value%20FROM%20emp_by_year_comm_type%20LIMIT%205";
 
     d3.json(url, function(d) {
