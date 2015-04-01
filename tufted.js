@@ -211,7 +211,11 @@ d3.chart("BaseChart").extend("BarChart", {
     }
     // // update the scales
     chart.xScale.domain(data.map(function(d) { return d.name; }));
-    chart.yScale.domain([min,max]);
+    if (chart.yDomain().length > 0) {
+      chart.yScale.domain(chart.yDomain()); 
+    } else {
+      chart.yScale.domain([min,max]);      
+    }
 
     return data;
   }
@@ -804,7 +808,11 @@ d3.chart('BaseChart').extend('GroupedBarChart', {
 
       chart.xScale.domain(data.map(function(d) { return d.series; }));
       chart.x1Scale.domain(buffer).rangeRoundBands([0, chart.xScale.rangeBand()]);
-      chart.yScale.domain([min, max]);
+      if (chart.yDomain().length > 0) {
+        chart.yScale.domain(chart.yDomain()); 
+      } else {
+        chart.yScale.domain([min,max]);      
+      }
 
       return data;
   }
@@ -1267,7 +1275,11 @@ d3.chart("BaseChart").extend("ScatterPlot", {
     var chart = this;
 
     chart.xScale.domain(d3.extent(data,function(d) { return d.x }));
-    chart.yScale.domain(d3.extent(data,function(d) { return d.y }));
+    if (chart.yDomain().length > 0) {
+      chart.yScale.domain(chart.yDomain()); 
+    } else {
+      chart.yScale.domain(d3.extent(data,function(d) { return d.y }));      
+    }
     return data;
   }
 });
@@ -1438,7 +1450,11 @@ d3.chart('BaseChart').extend('StackedBarChart', {
       });
       
       chart.xScale.domain(chart.data.map(function(d) { return d.series; }));
-      chart.yScale.domain([0, d3.max(chart.data, function(d) { return d.total; })]);
+      if (chart.yDomain().length > 0) {
+        chart.yScale.domain(chart.yDomain()); 
+      } else {
+        chart.yScale.domain([0, d3.max(chart.data, function(d) { return d.total; })]);      
+      }
       
       return chart.data;
   }

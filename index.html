@@ -219,7 +219,7 @@
     .append('svg')
     .chart('StackedBarChart')
     .yFormat('.2s')
-    .yDomain([0,5])
+    // .yDomain([0,20000000])
     .height(400)
     .colors(["blue","green","yellow"]);
 
@@ -231,6 +231,7 @@
     var chart = d3.select('#scatter-plot-chart')
       .append('svg')
       .chart('ScatterPlot')
+      .yDomain([0,100])
       .height(400);
 
     chart.draw(d.rows);
@@ -244,7 +245,7 @@
       .height(600);
 
   d3.json(url, function(json) {
-    map.draw(json);    
+    // map.draw(json);    
   });
 
 
