@@ -15,6 +15,14 @@
       font-size: 16px;
       line-height: 24px;
     }
+
+    #bar-chart {
+      height: 500px;
+    }
+
+    #grouped-bar-chart {
+      height: 500px;
+    }
   </style>
 </head>
 <body>
@@ -118,8 +126,8 @@
         .append('svg')
         .chart('GroupedBarChart')
         .yAxisLabel("Percent")
-        .height(400)
-        .colors(['#F37B70', '#1C164E', '#1F77B4', '#00AFB2']);
+        // .height(400)
+        .colors(['PINK', '#1C164E', '#1F77B4', '#00AFB2']);
       chart.draw(d.rows);    
     });
 
@@ -198,8 +206,8 @@
       var chart = d3.select('#bar-chart')
         .append("svg")
         .chart("BarChart")
-        .yFormat('.2s')
-        .height(400);
+        .yFormat('.2s');
+        // .height(400);
       //testing some negative values
       d.rows[0].value = d.rows[0].value*-1;
 
@@ -210,7 +218,8 @@
     .append('svg')
     .chart('StackedBarChart')
     .yFormat('.2s')
-    .height(400);
+    .height(400)
+    .colors(["blue","green","yellow"]);
 
   chart.draw(stackedBarChartData); 
 

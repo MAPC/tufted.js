@@ -36,7 +36,7 @@ d3.chart("BaseChart").extend('Axis', {
       component._axis.scale(options.setScale);
 
       if(options.wrap) {
-        component.layer("axis").call(component._axis).selectAll("text").call(chart.wrap, options.setScale.range());
+        component.layer("axis").call(component._axis).selectAll("text").call(chart.wrap, options.setScale.rangeBand());
       } else {
         component.layer("axis").call(component._axis).selectAll("text");
       }
@@ -54,7 +54,7 @@ d3.chart("BaseChart").extend('Axis', {
           if(options.wrap) {
             this.call(component._axis).selectAll("text")
                 .call(chart.wrap, 
-                  options.setScale.range());
+                  options.setScale.rangeBand());
           } else {
             this.call(component._axis).selectAll("text")
           }
@@ -411,6 +411,10 @@ d3.chart("BaseChart", {
   },
 
   tooltip: function (d, element, box) {
+    var format = d3.format("");
+    if(this._yFormat) {
+      var format = d3.format(this._yFormat);
+    }
 
     var position = d3.mouse(element),
         xOffset = 0,
@@ -419,7 +423,7 @@ d3.chart("BaseChart", {
     box.attr("transform", "translate(" + (position[0] + xOffset) + ", " + (position[1] + yOffset) + ")")
       .attr("display", "block")
       .select("text")
-      .text(d);
+      .text(format(d));
 
     box.select("rect")
       .attr("y", -parseFloat(box.select("text")[0][0].getBBox().height))
