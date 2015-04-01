@@ -36,7 +36,7 @@ d3.chart("BaseChart").extend('Axis', {
       component._axis.scale(options.setScale);
 
       if(options.wrap) {
-        component.layer("axis").call(component._axis).selectAll("text").call(chart.wrap, options.setScale.rangeBand());
+        component.layer("axis").call(component._axis).selectAll("text").call(chart.wrap, options.setScale.range());
       } else {
         component.layer("axis").call(component._axis).selectAll("text");
       }
@@ -54,7 +54,7 @@ d3.chart("BaseChart").extend('Axis', {
           if(options.wrap) {
             this.call(component._axis).selectAll("text")
                 .call(chart.wrap, 
-                  options.setScale.rangeBand());
+                  options.setScale.range());
           } else {
             this.call(component._axis).selectAll("text")
           }
@@ -193,8 +193,7 @@ d3.chart("BaseChart").extend("BarChart", {
 
           this.attr("text-anchor", "middle")
             .attr("x", function(d) { return chart.xScale(d.name) + (chart.xScale.rangeBand() / 2); })
-            .attr("y", function(d) { return chart.yScale(d.value); })
-            .text(function(d) { return d.value });
+            .attr("y", function(d) { return chart.yScale(d.value); });
 
         }
       }
@@ -799,7 +798,7 @@ d3.chart("BaseChart").extend("LineChart", {
     chart._callouts = [];
 
     chart.xScale = d3.scale.ordinal()
-      .rangeRoundBands([0, chart.width()], 1);
+      .rangePoints([0, chart.width()],0);
 
     chart.yScale = d3.scale.linear()
       .range([chart.height(), 0]);
@@ -848,7 +847,7 @@ d3.chart("BaseChart").extend("LineChart", {
       .append("text");
 
     chart.on('change:width', function(newWidth) {
-      chart.xScale.rangeRoundBands([0, newWidth], 1);
+      chart.xScale.rangePoints([0, newWidth], 0);
       chart.layer("lines").selectAll("path").attr('d', function(d) { return chart.renderLine(d.values); });
       chart.layer("circles").selectAll("circle").attr("cx", function(d) { return chart.xScale(d.year) })
     });
