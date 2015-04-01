@@ -415,6 +415,9 @@ d3.chart("BaseChart", {
     if(this._yFormat) {
       var format = d3.format(this._yFormat);
     }
+    if (typeof d === "number") {
+      d = format(d);
+    }
 
     var position = d3.mouse(element),
         xOffset = 0,
@@ -423,7 +426,7 @@ d3.chart("BaseChart", {
     box.attr("transform", "translate(" + (position[0] + xOffset) + ", " + (position[1] + yOffset) + ")")
       .attr("display", "block")
       .select("text")
-      .text(format(d));
+      .text(d);
 
     box.select("rect")
       .attr("y", -parseFloat(box.select("text")[0][0].getBBox().height))
@@ -1264,7 +1267,7 @@ d3.chart('BaseChart').extend('StackedBarChart', {
     chart.yAxis = d3.svg.axis()
       .scale(chart.yScale)
       .tickSize(-chart.width(), 0, 0)
-      .orient("left")
+      .orient("left");
 
     chart.areas.xAxisLayer = chart.base.append('g').classed('x axis',true)
     chart.areas.yAxisLayer = chart.base.append('g').classed('y axis', true)
