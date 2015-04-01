@@ -195,6 +195,7 @@
     var chart = d3.select('#line-chart-callouts')
       .append('svg')
       .chart('LineChart')
+      .yDomain([-100,100])
       .colors(d3.scale.category10())
       .height(400);
 
@@ -218,6 +219,7 @@
     .append('svg')
     .chart('StackedBarChart')
     .yFormat('.2s')
+    .yDomain([0,5])
     .height(400)
     .colors(["blue","green","yellow"]);
 

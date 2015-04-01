@@ -236,6 +236,7 @@ d3.chart("BaseChart", {
     
     this._tickValues = [];
     this._yAxisLabel = "Y-Axis";
+    this._yDomain = [];
     this._margin = {top: 60, right: 20, bottom: 80, left: 80};
     this._width  = setInitialWidth();
     this._height = setInitialHeight();
@@ -381,12 +382,25 @@ d3.chart("BaseChart", {
   },
 
   xFormat: function(string) {
+
     if (arguments.length === 0) {
       return this._xFormat;
     }
 
     if (typeof string === "string") {
       this._xFormat = string;
+    } 
+
+    return this;
+  },
+
+  yDomain: function(array) {
+    if (arguments.length === 0) {
+      return this._yDomain;
+    }
+
+    if (array.constructor === Array) {
+      this._yDomain = array;
     } 
 
     return this;
@@ -1109,7 +1123,12 @@ d3.chart("BaseChart").extend("LineChart", {
 
 
     chart.xScale.domain(buffer);
-    chart.yScale.domain([min,max]);
+    if (chart.yDomain().length > 0) {
+      chart.yScale.domain(chart.yDomain()); 
+    } else {
+      chart.yScale.domain([min,max]);      
+    }
+
 
     chart._callouts.forEach(function(d) {
       var pluck = [];
@@ -1407,22 +1426,21 @@ d3.chart('BaseChart').extend('StackedBarChart', {
     },
 
     transform: function(data) {
-      var data = data;
       var chart = this; 
-      console.log(data);
+      chart.data = data;
 
-      var groups = d3.keys(data[0]).filter(function(key) { return key !== "series"; });
+      var groups = d3.keys(chart.data[0]).filter(function(key) { return key !== "series"; });
 
-      data.forEach(function(d) {
+      chart.data.forEach(function(d) {
         var y0 = 0;
         d.groups = groups.map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
         d.total = d.groups[d.groups.length - 1].y1;
       });
       
-      chart.xScale.domain(data.map(function(d) { return d.series; }));
-      chart.yScale.domain([0, d3.max(data, function(d) { return d.total; })]);
+      chart.xScale.domain(chart.data.map(function(d) { return d.series; }));
+      chart.yScale.domain([0, d3.max(chart.data, function(d) { return d.total; })]);
       
-      return data;
+      return chart.data;
   }
 });
 },{}]},{},[1]);
